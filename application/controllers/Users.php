@@ -7,6 +7,7 @@ require APPPATH . 'libraries/REST_Controller.php';
 class Users extends REST_Controller
 {
     private $usersTable = "users";
+    private $inputData = "";
 
     /**
      * Loading the required classes
@@ -17,6 +18,7 @@ class Users extends REST_Controller
         parent::__construct();
         $this->load->model('Users_model');
         $this->load->library('utility');
+        $this->inputData = json_decode(file_get_contents('php://input'), true);
     }
 
     /**
@@ -25,7 +27,7 @@ class Users extends REST_Controller
      */
     public function index_get()
     {
-        $this->response(['status' => false, 'message' => 'Invalid end point'], 200);
+        $this->utility->sendForceJSON(['status' => false, 'message' => 'Invalid end point']);
     }
 
     /**
@@ -44,36 +46,36 @@ class Users extends REST_Controller
     public function register_post()
     {
         try {
-            $NAME = trim($this->post("NAME"));
-            $BUSINESS_NAME = trim($this->post("BUSINESS_NAME"));
-            $MOBILE_NO = trim($this->post("MOBILE_NO"));
-            $EMAIL_ID = trim($this->post("EMAIL_ID"));
-            $ADDRESS = trim($this->post("ADDRESS"));
-            $CITY = trim($this->post("CITY"));
-            $STATE = trim($this->post("STATE"));
-            $DISTRICT = trim($this->post("DISTRICT"));
-            $PINCODE_NO = trim($this->post("PINCODE_NO"));
-            $USER_TYPE = trim($this->post("USER_TYPE"));
-            $PASSWORD = trim($this->post("PASSWORD"));
-            $REFERENCE_ID = trim($this->post("REFERENCE_ID"));
+            $NAME = trim($this->inputData["NAME"]);
+            $BUSINESS_NAME = trim($this->inputData["BUSINESS_NAME"]);
+            $MOBILE_NO = trim($this->inputData["MOBILE_NO"]);
+            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
+            $ADDRESS = trim($this->inputData["ADDRESS"]);
+            $CITY = trim($this->inputData["CITY"]);
+            $STATE = trim($this->inputData["STATE"]);
+            $DISTRICT = trim($this->inputData["DISTRICT"]);
+            $PINCODE_NO = trim($this->inputData["PINCODE_NO"]);
+            $USER_TYPE = trim($this->inputData["USER_TYPE"]);
+            $PASSWORD = trim($this->inputData["PASSWORD"]);
+            $REFERENCE_ID = trim($this->inputData["REFERENCE_ID"]);
 
 
             if (!empty($MOBILE_NO)) {
                 if (!is_numeric($MOBILE_NO) && strlen($MOBILE_NO) < 10) {
-                    $this->response(['status' => false, 'message' => "Invalid mobile number"], 200);
+                    $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid mobile number"]);
                 }
             }
 
             if (!empty($EMAIL_ID)) {
 
                 if (!$this->utility->validEmail($EMAIL_ID)) {
-                    $this->response(['status' => false, 'message' => "Invalid email address"], 200);
+                    $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid email address"]);
                 }
 
                 $whereArray = array('EMAIL_ID' => $EMAIL_ID);
                 $tempResult = $this->Users_model->check($this->usersTable, $whereArray);
                 if ($tempResult->num_rows() > 0) {
-                    $this->response(["status" => false, "message" => "User already registered with email address"], 200);
+                    $this->utility->sendForceJSON(["status" => false, "message" => "User already registered with email address"]);
                 }
             }
 
@@ -106,9 +108,9 @@ class Users extends REST_Controller
             if ($result) {
                 $responseArray = $this->getUserDetails($BOD_SEQ_NO);
                 unset($responseArray['PASSWORD']);
-                $this->response(["status" => true, "message" => "Registration successful", "data" => $responseArray], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Registration successful", "data" => $responseArray]);
             } else {
-                $this->response(["status" => false, "message" => "Failed to register user"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to register user"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -118,38 +120,38 @@ class Users extends REST_Controller
     public function update_post()
     {
         try {
-            $BOD_SEQ_NO = trim($this->post("BOD_SEQ_NO"));
-            $NAME = trim($this->post("NAME"));
-            $BUSINESS_NAME = trim($this->post("BUSINESS_NAME"));
-            $MOBILE_NO = trim($this->post("MOBILE_NO"));
-            $EMAIL_ID = trim($this->post("EMAIL_ID"));
-            $ADDRESS = trim($this->post("ADDRESS"));
-            $CITY = trim($this->post("CITY"));
-            $STATE = trim($this->post("STATE"));
-            $DISTRICT = trim($this->post("DISTRICT"));
-            $PINCODE_NO = trim($this->post("PINCODE_NO"));
+            $BOD_SEQ_NO = trim($this->inputData["BOD_SEQ_NO"]);
+            $NAME = trim($this->inputData["NAME"]);
+            $BUSINESS_NAME = trim($this->inputData["BUSINESS_NAME"]);
+            $MOBILE_NO = trim($this->inputData["MOBILE_NO"]);
+            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
+            $ADDRESS = trim($this->inputData["ADDRESS"]);
+            $CITY = trim($this->inputData["CITY"]);
+            $STATE = trim($this->inputData["STATE"]);
+            $DISTRICT = trim($this->inputData["DISTRICT"]);
+            $PINCODE_NO = trim($this->inputData["PINCODE_NO"]);
 
             $whereArray = array('BOD_SEQ_NO' => $BOD_SEQ_NO);
             $temp = $this->Users_model->check($this->usersTable, $whereArray);
             if ($temp->num_rows() == 0) {
-                $this->response(["status" => false, "message" => "User not found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
             }
 
             if (!empty($MOBILE_NO)) {
                 if (!is_numeric($MOBILE_NO) && strlen($MOBILE_NO) < 10) {
-                    $this->response(['status' => false, 'message' => "Invalid mobile number"], 200);
+                    $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid mobile number"]);
                 }
             }
 
             if (!empty($EMAIL_ID)) {
 
                 if (!$this->utility->validEmail($EMAIL_ID)) {
-                    $this->response(['status' => false, 'message' => "Invalid email address"], 200);
+                    $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid email address"]);
                 }
                 $whereString = "EMAIL_ID='$EMAIL_ID' AND BOD_SEQ_NO !='$BOD_SEQ_NO'";
                 $tempResult = $this->Users_model->check($this->usersTable, $whereString);
                 if ($tempResult->num_rows() > 0) {
-                    $this->response(["status" => false, "message" => "User already registered with email address"], 200);
+                    $this->utility->sendForceJSON(["status" => false, "message" => "User already registered with email address"]);
                 }
             }
 
@@ -169,9 +171,9 @@ class Users extends REST_Controller
             if ($result) {
                 $responseArray = $this->getUserDetails($BOD_SEQ_NO);
                 unset($responseArray['PASSWORD']);
-                $this->response(["status" => true, "message" => "Details updated", "data" => $responseArray], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Details updated", "data" => $responseArray]);
             } else {
-                $this->response(["status" => false, "message" => "Failed to update user details"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to update user details"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -181,11 +183,12 @@ class Users extends REST_Controller
     public function login_post()
     {
         try {
-            $EMAIL_ID = trim($this->post("EMAIL_ID"));
-            $PASSWORD = trim($this->post("PASSWORD"));
+
+            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
+            $PASSWORD = trim($this->inputData["PASSWORD"]);
 
             if (empty($EMAIL_ID) || empty($PASSWORD)) {
-                $this->response(["status" => false, "message" => "Required fields missing"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
             $whereArray = array('EMAIL_ID' => $EMAIL_ID);
@@ -194,7 +197,7 @@ class Users extends REST_Controller
                 $whereArray = array('MOBILE_NO' => $EMAIL_ID);
                 $temp = $this->Users_model->check($this->usersTable, $whereArray);
                 if ($temp->num_rows() == 0) {
-                    $this->response(["status" => false, "message" => "User not found"], 200);
+                    $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
                 }
             }
 
@@ -203,9 +206,9 @@ class Users extends REST_Controller
             if ($result['PASSWORD'] == $PASSWORD) {
                 $responseArray = $this->getUserDetails($result['BOD_SEQ_NO']);
                 unset($responseArray['PASSWORD']);
-                $this->response(["status" => true, "message" => "Login successful", "data" => $responseArray], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Login successful", "data" => $responseArray]);
             } else {
-                $this->response(["status" => false, "message" => "Incorrect password"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Incorrect password"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -215,25 +218,25 @@ class Users extends REST_Controller
     public function changeStatus_post()
     {
         try {
-            $EMAIL_ID = trim($this->post("EMAIL_ID"));
-            $STATUS = trim($this->post("STATUS"));
+            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
+            $STATUS = trim($this->inputData["STATUS"]);
 
             if (empty($EMAIL_ID) || empty($STATUS)) {
-                $this->response(["status" => false, "message" => "Required fields missing"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
             if (!$this->utility->validEmail($EMAIL_ID)) {
-                $this->response(['status' => false, 'message' => "Invalid email address"], 200);
+                $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid email address"]);
             }
 
             $whereArray = array('EMAIL_ID' => $EMAIL_ID);
             $temp = $this->Users_model->check($this->usersTable, $whereArray);
             if ($temp->num_rows() == 0) {
-                $this->response(["status" => false, "message" => "User not found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
             }
 
             if (!in_array($STATUS, array("ACTIVE", "INACTIVE"))) {
-                $this->response(["status" => false, "message" => "Invalid input from STATUS"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Invalid input from STATUS"]);
             }
 
             $updateArray = array(
@@ -242,9 +245,9 @@ class Users extends REST_Controller
             );
             $result = $this->Users_model->update($this->usersTable, $whereArray, $updateArray);
             if ($result) {
-                $this->response(["status" => true, "message" => "User status changed"], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "User status changed"]);
             } else {
-                $this->response(["status" => false, "message" => "Failed to change the user status"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to change the user status"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -254,17 +257,17 @@ class Users extends REST_Controller
     public function changePassword_post()
     {
         try {
-            $BOD_SEQ_NO = trim($this->post("BOD_SEQ_NO"));
-            $NEW_PASSWORD = trim($this->post("NEW_PASSWORD"));
+            $BOD_SEQ_NO = trim($this->inputData["BOD_SEQ_NO"]);
+            $NEW_PASSWORD = trim($this->inputData["NEW_PASSWORD"]);
 
             if (empty($BOD_SEQ_NO) || empty($NEW_PASSWORD)) {
-                $this->response(["status" => false, "message" => "Required fields missing"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
             $whereArray = array('BOD_SEQ_NO' => $BOD_SEQ_NO);
             $temp = $this->Users_model->check($this->usersTable, $whereArray);
             if ($temp->num_rows() == 0) {
-                $this->response(["status" => false, "message" => "User not found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
             }
             $updateArray = array(
                 'PASSWORD' => $NEW_PASSWORD,
@@ -275,9 +278,9 @@ class Users extends REST_Controller
             if ($result) {
                 $responseArray = $this->getUserDetails($BOD_SEQ_NO);
                 unset($responseArray['PASSWORD']);
-                $this->response(["status" => true, "message" => "Password changed", "data" => $responseArray], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Password changed", "data" => $responseArray]);
             } else {
-                $this->response(["status" => false, "message" => "Failed to change the password"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to change the password"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);

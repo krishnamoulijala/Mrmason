@@ -8,6 +8,7 @@ class Services extends REST_Controller
 {
     private $servicesTable = "services";
     private $serviceTypeTable = "serviceTypes";
+    private $inputData = "";
 
     /**
      * Loading the required classes
@@ -16,6 +17,9 @@ class Services extends REST_Controller
     function __construct()
     {
         parent::__construct();
+        $this->load->model('Users_model');
+        $this->load->library('utility');
+        $this->inputData = json_decode(file_get_contents('php://input'), true);
     }
 
     /**
@@ -24,22 +28,22 @@ class Services extends REST_Controller
      */
     public function index_get()
     {
-        $this->response(['status' => false, 'message' => 'Invalid end point'], 200);
+        $this->utility->sendForceJSON(['status' => false, 'message' => 'Invalid end point']);
     }
 
     public function insertName_post()
     {
         try {
-            $SERVICE_NAME = strtolower(trim($this->post("SERVICE_NAME")));
+            $SERVICE_NAME = strtolower(trim($this->inputData["SERVICE_NAME"]));
 
             if (empty($SERVICE_NAME)) {
-                $this->response(["status" => false, "message" => "Required fields missing"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
             $whereString = "LOWER(SERVICE_NAME)='$SERVICE_NAME'";
             $tempResult = $this->Users_model->check($this->servicesTable, $whereString);
             if ($tempResult->num_rows() > 0) {
-                $this->response(["status" => false, "message" => "Service name already exists"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Service name already exists"]);
             }
 
             $saveArray = array(
@@ -48,9 +52,9 @@ class Services extends REST_Controller
             );
             $result = $this->Users_model->save($this->servicesTable, $saveArray);
             if ($result) {
-                $this->response(["status" => true, "message" => "Service name added"], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Service name added"]);
             } else {
-                $this->response(["status" => false, "message" => "Failed to add service name"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add service name"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -60,23 +64,23 @@ class Services extends REST_Controller
     public function updateName_post()
     {
         try {
-            $SERVICE_NAME = strtolower(trim($this->post("SERVICE_NAME")));
-            $ID = strtolower(trim($this->post("ID")));
+            $SERVICE_NAME = strtolower(trim($this->inputData["SERVICE_NAME"]));
+            $ID = strtolower(trim($this->inputData["ID"]));
 
             if (empty($SERVICE_NAME) || empty($ID)) {
-                $this->response(["status" => false, "message" => "Required fields missing"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
             $whereArray = array('ID' => $ID);
             $tempResult = $this->Users_model->check($this->servicesTable, $whereArray);
             if ($tempResult->num_rows() > 0) {
-                $this->response(["status" => false, "message" => "Service ID not found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Service ID not found"]);
             }
 
             $whereString = "LOWER(SERVICE_NAME)='$SERVICE_NAME' AND ID !='$ID'";
             $tempResult = $this->Users_model->check($this->servicesTable, $whereString);
             if ($tempResult->num_rows() > 0) {
-                $this->response(["status" => false, "message" => "Service name already exists"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Service name already exists"]);
             }
 
             $updateArray = array(
@@ -85,9 +89,9 @@ class Services extends REST_Controller
             );
             $result = $this->Users_model->update($this->servicesTable, $whereArray, $updateArray);
             if ($result) {
-                $this->response(["status" => true, "message" => "Service name updated"], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Service name updated"]);
             } else {
-                $this->response(["status" => false, "message" => "Failed to update service name"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to update service name"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -103,9 +107,9 @@ class Services extends REST_Controller
             $this->db->order_by("SERVICE_NAME", "ASC");
             $result = $this->db->get();
             if ($result->num_rows() > 0) {
-                $this->response(["status" => true, "message" => "Active services list", "data" => $result->result_array()], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Active services list", "data" => $result->result_array()]);
             } else {
-                $this->response(["status" => false, "message" => "No active services found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "No active services found"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -121,9 +125,9 @@ class Services extends REST_Controller
             $this->db->order_by("SERVICE_TYPE", "ASC");
             $result = $this->db->get();
             if ($result->num_rows() > 0) {
-                $this->response(["status" => true, "message" => "Active service types list", "data" => $result->result_array()], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Active service types list", "data" => $result->result_array()]);
             } else {
-                $this->response(["status" => false, "message" => "No active service types found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "No active service types found"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);

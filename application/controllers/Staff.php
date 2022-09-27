@@ -7,7 +7,7 @@ require APPPATH . 'libraries/REST_Controller.php';
 class Staff extends REST_Controller
 {
     private $staffTable = "staff";
-
+    private $inputData = "";
     /**
      * Loading the required classes
      * Services constructor.
@@ -17,6 +17,7 @@ class Staff extends REST_Controller
         parent::__construct();
         $this->load->model('Users_model');
         $this->load->library('utility');
+        $this->inputData = json_decode(file_get_contents('php://input'), true);
     }
 
     /**
@@ -25,7 +26,7 @@ class Staff extends REST_Controller
      */
     public function index_get()
     {
-        $this->response(['status' => false, 'message' => 'Invalid end point'], 200);
+        $this->utility->sendForceJSON(['status' => false, 'message' => 'Invalid end point']);
     }
 
     /**
@@ -44,36 +45,36 @@ class Staff extends REST_Controller
     public function register_post()
     {
         try {
-            $NAME = trim($this->post("NAME"));
-            $CONTACT_NO = trim($this->post("CONTACT_NO"));
-            $EMAIL_ID = trim($this->post("EMAIL_ID"));
-            $CITY = trim($this->post("CITY"));
-            $STATE = trim($this->post("STATE"));
-            $DISTRICT = trim($this->post("DISTRICT"));
-            $PINCODE = trim($this->post("PINCODE"));
-            $SERVICE_NAME = trim($this->post("SERVICE_NAME"));
-            $EXPERIENCE = trim($this->post("EXPERIENCE"));
-            $QUALIFICATION = trim($this->post("QUALIFICATION"));
-            $CERTIFICATE = trim($this->post("CERTIFICATE"));
-            $WITH_IN_RANGE = trim($this->post("WITH_IN_RANGE"));
-            $REGISTERED_BY = trim($this->post("REGISTERED_BY"));
+            $NAME = trim($this->inputData["NAME"]);
+            $CONTACT_NO = trim($this->inputData["CONTACT_NO"]);
+            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
+            $CITY = trim($this->inputData["CITY"]);
+            $STATE = trim($this->inputData["STATE"]);
+            $DISTRICT = trim($this->inputData["DISTRICT"]);
+            $PINCODE = trim($this->inputData["PINCODE"]);
+            $SERVICE_NAME = trim($this->inputData["SERVICE_NAME"]);
+            $EXPERIENCE = trim($this->inputData["EXPERIENCE"]);
+            $QUALIFICATION = trim($this->inputData["QUALIFICATION"]);
+            $CERTIFICATE = trim($this->inputData["CERTIFICATE"]);
+            $WITH_IN_RANGE = trim($this->inputData["WITH_IN_RANGE"]);
+            $REGISTERED_BY = trim($this->inputData["REGISTERED_BY"]);
 
 
             if (!empty($CONTACT_NO)) {
                 if (!is_numeric($CONTACT_NO) && strlen($CONTACT_NO) < 10) {
-                    $this->response(['status' => false, 'message' => "Invalid mobile number"], 200);
+                    $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid mobile number"]);
                 }
             }
 
             if (!empty($EMAIL_ID)) {
                 if (!$this->utility->validEmail($EMAIL_ID)) {
-                    $this->response(['status' => false, 'message' => "Invalid email address"], 200);
+                    $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid email address"]);
                 }
 
                 $whereArray = array('EMAIL_ID' => $EMAIL_ID);
                 $tempResult = $this->Users_model->check($this->staffTable, $whereArray);
                 if ($tempResult->num_rows() > 0) {
-                    $this->response(["status" => false, "message" => "Service person already registered with email address"], 200);
+                    $this->utility->sendForceJSON(["status" => false, "message" => "Service person already registered with email address"]);
                 }
             }
 
@@ -107,9 +108,9 @@ class Staff extends REST_Controller
             $result = $this->Users_model->save($this->staffTable, $saveArray);
             if ($result) {
                 $responseArray = $this->getStaffDetails($SER_PER_SEQ_ID);
-                $this->response(["status" => true, "message" => "Registration successful", "data" => $responseArray], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Registration successful", "data" => $responseArray]);
             } else {
-                $this->response(["status" => false, "message" => "Failed to register user"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to register user"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -119,42 +120,42 @@ class Staff extends REST_Controller
     public function update_post()
     {
         try {
-            $SER_PER_SEQ_ID = trim($this->post("SER_PER_SEQ_ID"));
-            $NAME = trim($this->post("NAME"));
-            $CONTACT_NO = trim($this->post("CONTACT_NO"));
-            $EMAIL_ID = trim($this->post("EMAIL_ID"));
-            $CITY = trim($this->post("CITY"));
-            $STATE = trim($this->post("STATE"));
-            $DISTRICT = trim($this->post("DISTRICT"));
-            $PINCODE = trim($this->post("PINCODE"));
-            $SERVICE_NAME = trim($this->post("SERVICE_NAME"));
-            $EXPERIENCE = trim($this->post("EXPERIENCE"));
-            $QUALIFICATION = trim($this->post("QUALIFICATION"));
-            $CERTIFICATE = trim($this->post("CERTIFICATE"));
-            $WITH_IN_RANGE = trim($this->post("WITH_IN_RANGE"));
-            $REGISTERED_BY = trim($this->post("REGISTERED_BY"));
+            $SER_PER_SEQ_ID = trim($this->inputData["SER_PER_SEQ_ID"]);
+            $NAME = trim($this->inputData["NAME"]);
+            $CONTACT_NO = trim($this->inputData["CONTACT_NO"]);
+            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
+            $CITY = trim($this->inputData["CITY"]);
+            $STATE = trim($this->inputData["STATE"]);
+            $DISTRICT = trim($this->inputData["DISTRICT"]);
+            $PINCODE = trim($this->inputData["PINCODE"]);
+            $SERVICE_NAME = trim($this->inputData["SERVICE_NAME"]);
+            $EXPERIENCE = trim($this->inputData["EXPERIENCE"]);
+            $QUALIFICATION = trim($this->inputData["QUALIFICATION"]);
+            $CERTIFICATE = trim($this->inputData["CERTIFICATE"]);
+            $WITH_IN_RANGE = trim($this->inputData["WITH_IN_RANGE"]);
+            $REGISTERED_BY = trim($this->inputData["REGISTERED_BY"]);
 
             $whereArray = array('SER_PER_SEQ_ID' => $SER_PER_SEQ_ID);
             $temp = $this->Users_model->check($this->staffTable, $whereArray);
             if ($temp->num_rows() == 0) {
-                $this->response(["status" => false, "message" => "User not found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
             }
 
             if (!empty($CONTACT_NO)) {
                 if (!is_numeric($CONTACT_NO) && strlen($CONTACT_NO) < 10) {
-                    $this->response(['status' => false, 'message' => "Invalid mobile number"], 200);
+                    $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid mobile number"]);
                 }
             }
 
             if (!empty($EMAIL_ID)) {
                 if (!$this->utility->validEmail($EMAIL_ID)) {
-                    $this->response(['status' => false, 'message' => "Invalid email address"], 200);
+                    $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid email address"]);
                 }
 
                 $whereString = "EMAIL_ID='$EMAIL_ID' AND SER_PER_SEQ_ID !='$SER_PER_SEQ_ID'";
                 $tempResult = $this->Users_model->check($this->staffTable, $whereString);
                 if ($tempResult->num_rows() > 0) {
-                    $this->response(["status" => false, "message" => "Service person already registered with email address"], 200);
+                    $this->utility->sendForceJSON(["status" => false, "message" => "Service person already registered with email address"]);
                 }
             }
 
@@ -177,9 +178,9 @@ class Staff extends REST_Controller
             $result = $this->Users_model->update($this->staffTable, $whereArray, $saveArray);
             if ($result) {
                 $responseArray = $this->getStaffDetails($SER_PER_SEQ_ID);
-                $this->response(["status" => true, "message" => "Details updated", "data" => $responseArray], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Details updated", "data" => $responseArray]);
             } else {
-                $this->response(["status" => false, "message" => "Failed to update details"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to update details"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -189,25 +190,25 @@ class Staff extends REST_Controller
     public function changeStatus_post()
     {
         try {
-            $EMAIL_ID = trim($this->post("EMAIL_ID"));
-            $STATUS = trim($this->post("STATUS"));
+            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
+            $STATUS = trim($this->inputData["STATUS"]);
 
             if (empty($EMAIL_ID) || empty($STATUS)) {
-                $this->response(["status" => false, "message" => "Required fields missing"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
             if (!$this->utility->validEmail($EMAIL_ID)) {
-                $this->response(['status' => false, 'message' => "Invalid email address"], 200);
+                $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid email address"]);
             }
 
             $whereArray = array('EMAIL_ID' => $EMAIL_ID);
             $temp = $this->Users_model->check($this->staffTable, $whereArray);
             if ($temp->num_rows() == 0) {
-                $this->response(["status" => false, "message" => "Service person not found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Service person not found"]);
             }
 
             if (!in_array($STATUS, array("ACTIVE", "INACTIVE"))) {
-                $this->response(["status" => false, "message" => "Invalid input from STATUS"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Invalid input from STATUS"]);
             }
 
             $updateArray = array(
@@ -216,9 +217,9 @@ class Staff extends REST_Controller
             );
             $result = $this->Users_model->update($this->staffTable, $whereArray, $updateArray);
             if ($result) {
-                $this->response(["status" => true, "message" => "Service person status changed"], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Service person status changed"]);
             } else {
-                $this->response(["status" => false, "message" => "Failed to change the service person status"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to change the service person status"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -228,21 +229,21 @@ class Staff extends REST_Controller
     public function updateAvailability_post()
     {
         try {
-            $SER_PER_SEQ_ID = trim($this->post('SER_PER_SEQ_ID'));
-            $AVAILABLE_STATUS = trim($this->post('AVAILABLE_STATUS'));
+            $SER_PER_SEQ_ID = trim($this->inputData['SER_PER_SEQ_ID']);
+            $AVAILABLE_STATUS = trim($this->inputData['AVAILABLE_STATUS']);
 
             if (empty($SER_PER_SEQ_ID) || empty($AVAILABLE_STATUS)) {
-                $this->response(["status" => false, "message" => "Required fields missing"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
             if (!in_array($AVAILABLE_STATUS, array("AVAILABLE", "UNAVAILABLE"))) {
-                $this->response(["status" => false, "message" => "Invalid input in AVAILABLE_STATUS"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Invalid input in AVAILABLE_STATUS"]);
             }
 
             $whereArray = array('SER_PER_SEQ_ID' => $SER_PER_SEQ_ID);
             $temp = $this->Users_model->check($this->staffTable, $whereArray);
             if ($temp->num_rows() == 0) {
-                $this->response(["status" => false, "message" => "Service person not found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Service person not found"]);
             }
 
             $updateArray = array(
@@ -252,9 +253,9 @@ class Staff extends REST_Controller
             $result = $this->Users_model->update($this->staffTable, $whereArray, $updateArray);
             if ($result) {
                 $responseArray = $this->getStaffDetails($SER_PER_SEQ_ID);
-                $this->response(["status" => true, "message" => "Service person available status updated", "data" => $responseArray], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Service person available status updated", "data" => $responseArray]);
             } else {
-                $this->response(["status" => false, "message" => "Failed to change the service person status"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to change the service person status"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -267,8 +268,10 @@ class Staff extends REST_Controller
             $SERVICE_NAME = trim($this->get('SERVICE_NAME'));
             $CITY = strtolower(trim($this->get('CITY')));
 
+            log_message("ERROR",$SERVICE_NAME);
+
             if (empty($SERVICE_NAME)) {
-                $this->response(["status" => false, "message" => "Required fields missing"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
             $this->db->select("*");
@@ -280,9 +283,9 @@ class Staff extends REST_Controller
             }
             $result = $this->db->get();
             if ($result->num_rows() > 0) {
-                $this->response(["status" => true, "message" => "Available service persons list", "data" => $result->result_array()], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Available service persons list", "data" => $result->result_array()]);
             } else {
-                $this->response(["status" => false, "message" => "No available service persons found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "No available service persons found"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -297,9 +300,9 @@ class Staff extends REST_Controller
             $this->db->where('AVAILABLE_STATUS', "AVAILABLE");
             $result = $this->db->get();
             if ($result->num_rows() > 0) {
-                $this->response(["status" => true, "message" => "All Available service persons list", "data" => $result->result_array()], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "All Available service persons list", "data" => $result->result_array()]);
             } else {
-                $this->response(["status" => false, "message" => "No available service persons found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "No available service persons found"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -312,14 +315,14 @@ class Staff extends REST_Controller
             $SER_PER_SEQ_ID = trim($this->get('SER_PER_SEQ_ID'));
 
             if (empty($SER_PER_SEQ_ID)) {
-                $this->response(["status" => false, "message" => "Required fields missing"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
             $responseArray = $this->getStaffDetails($SER_PER_SEQ_ID);
             if (!empty($responseArray)) {
-                $this->response(["status" => true, "message" => "Details of service person", "data" => $responseArray], 200);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Details of service person", "data" => $responseArray]);
             } else {
-                $this->response(["status" => false, "message" => "Service person not found"], 200);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Service person not found"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
