@@ -265,7 +265,7 @@ class Staff extends REST_Controller
     {
         try {
             $SERVICE_NAME = trim($this->get('SERVICE_NAME'));
-            $ADDRESS = strtolower(trim($this->get('ADDRESS')));
+            $CITY = strtolower(trim($this->get('CITY')));
 
             if (empty($SERVICE_NAME)) {
                 $this->response(["status" => false, "message" => "Required fields missing"], 200);
@@ -275,8 +275,8 @@ class Staff extends REST_Controller
             $this->db->from($this->staffTable);
             $this->db->where('AVAILABLE_STATUS', "AVAILABLE");
             $this->db->where('SERVICE_NAME', $SERVICE_NAME);
-            if (!empty($ADDRESS)) {
-                $this->db->where("LOWER(ADDRESS) LIKE '%$ADDRESS%'");
+            if (!empty($CITY)) {
+                $this->db->where("LOWER(CITY) LIKE '%$CITY%'");
             }
             $result = $this->db->get();
             if ($result->num_rows() > 0) {
