@@ -307,6 +307,11 @@ switch (ENVIRONMENT)
 	}
 
 	define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
+    define('IMAGES_PATH', "assets/uploads/"); // User uploaded images path
+
+if (!file_exists(IMAGES_PATH)) {
+    mkdir(IMAGES_PATH, 0777, TRUE);
+}
 
 /*
  * --------------------------------------------------------------------

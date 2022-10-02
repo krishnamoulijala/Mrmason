@@ -7,6 +7,7 @@ require APPPATH . 'libraries/REST_Controller.php';
 class Users extends REST_Controller
 {
     private $usersTable = "users";
+    private $usersImagesTable = "images";
     private $inputData = "";
 
     /**
@@ -190,7 +191,6 @@ class Users extends REST_Controller
             if (empty($EMAIL_ID) || empty($PASSWORD)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
-
             $whereArray = array('EMAIL_ID' => $EMAIL_ID);
             $temp = $this->Users_model->check($this->usersTable, $whereArray);
             if ($temp->num_rows() == 0) {
@@ -200,7 +200,6 @@ class Users extends REST_Controller
                     $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
                 }
             }
-
             $result = $temp->row_array();
 
             if ($result['PASSWORD'] == $PASSWORD) {
@@ -290,10 +289,9 @@ class Users extends REST_Controller
     public function getDetails_get()
     {
         try {
-            $BOD_SEQ_NO = trim($this->inputData["BOD_SEQ_NO"]);
+            $BOD_SEQ_NO = trim($this->get("BOD_SEQ_NO"));
 
             if (!empty($BOD_SEQ_NO)) {
-
                 $whereArray = array('BOD_SEQ_NO' => $BOD_SEQ_NO);
                 $temp = $this->Users_model->check($this->usersTable, $whereArray);
                 if ($temp->num_rows() == 0) {
@@ -303,11 +301,60 @@ class Users extends REST_Controller
                     unset($responseArray['PASSWORD']);
                     $this->utility->sendForceJSON(["status" => true, "message" => "User details", "data" => $responseArray]);
                 }
-
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
 
+    public function uploadImages_post()
+    {
+        try {
+            extract($_POST);
+            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
+            if (isset($_FILES["IMAGES"]) || empty($EMAIL_ID)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"], 200);
+            }
+            $result = false;
+            foreach ($_FILES["IMAGES"]["tmp_name"] as $key => $tmp_name) {
+                $reports = $_FILES["IMAGES"]["name"][$key];
+                $ext = pathinfo($reports, PATHINFO_EXTENSION);
+                $reports_file_new = $this->utility->getGUID() . "." . $ext;
+                $filePath = IMAGES_PATH . $reports_file_new;
+                move_uploaded_file($_FILES["IMAGES"]["tmp_name"][$key], $filePath);
+
+                $data = array('EMAIL_ID' => $EMAIL_ID, 'IMAGE_PATH' => $filePath, 'CREATED_DATETIME' => date('Y-m-d H:i:s'));
+                $result = $this->Users_model->save($this->usersImagesTable, $data);
+            }
+
+            if ($result) {
+                $this->utility->sendForceJSON(['status' => true, 'message' => "File upload successful"], 200);
+            } else {
+                $this->utility->sendForceJSON(['status' => false, 'message' => "Unable to upload images"], 200);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    public function getImages_get()
+    {
+        try {
+            $EMAIL_ID = trim($this->get("EMAIL_ID"));
+            if(empty($EMAIL_ID)){
+                $this->response(["status" => false, "message" => "Required fields missing"], 200);
+            }
+            $whereArray = array('EMAIL_ID' => $EMAIL_ID);
+            $temp = $this->Users_model->check($this->usersImagesTable, $whereArray);
+            if ($temp->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No images found"]);
+            } else {
+                $responseArray['base_url'] = base_url();
+                $responseArray['paths'] = $temp->result_array();
+                $this->utility->sendForceJSON(["status" => true, "message" => "User images", "data" => $responseArray]);
+            }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
         }
