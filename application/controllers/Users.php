@@ -286,4 +286,30 @@ class Users extends REST_Controller
             $this->logAndThrowError($e, true);
         }
     }
+
+    public function getDetails_get()
+    {
+        try {
+            $BOD_SEQ_NO = trim($this->inputData["BOD_SEQ_NO"]);
+
+            if (!empty($BOD_SEQ_NO)) {
+
+                $whereArray = array('BOD_SEQ_NO' => $BOD_SEQ_NO);
+                $temp = $this->Users_model->check($this->usersTable, $whereArray);
+                if ($temp->num_rows() == 0) {
+                    $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
+                } else {
+                    $responseArray = $this->getUserDetails($BOD_SEQ_NO);
+                    unset($responseArray['PASSWORD']);
+                    $this->utility->sendForceJSON(["status" => true, "message" => "User details", "data" => $responseArray]);
+                }
+
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
 }
