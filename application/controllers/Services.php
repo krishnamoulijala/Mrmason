@@ -31,6 +31,51 @@ class Services extends REST_Controller
         $this->utility->sendForceJSON(['status' => false, 'message' => 'Invalid end point']);
     }
 
+    /**
+     * #API_6 || Service Names List
+     */
+    public function getAllActiveServiceNames_get()
+    {
+        try {
+            $this->db->select("ID,SERVICE_NAME");
+            $this->db->from($this->servicesTable);
+            $this->db->where("STATUS", "ACTIVE");
+            $this->db->order_by("SERVICE_NAME", "ASC");
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Active services list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No active services found"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_7 || Service Types List
+     */
+    public function getAllActiveServiceTypes_get()
+    {
+        try {
+            $this->db->select("ID,SERVICE_TYPE");
+            $this->db->from($this->serviceTypeTable);
+            $this->db->where("STATUS", "ACTIVE");
+            $this->db->order_by("SERVICE_TYPE", "ASC");
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Active service types list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No active service types found"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_15 || Add Service Name
+     */
     public function insertName_post()
     {
         try {
@@ -61,6 +106,9 @@ class Services extends REST_Controller
         }
     }
 
+    /**
+     * #API_16 || Update Service Name
+     */
     public function updateName_post()
     {
         try {
@@ -92,42 +140,6 @@ class Services extends REST_Controller
                 $this->utility->sendForceJSON(["status" => true, "message" => "Service name updated"]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Failed to update service name"]);
-            }
-        } catch (Exception $e) {
-            $this->logAndThrowError($e, true);
-        }
-    }
-
-    public function getAllActiveServiceName_get()
-    {
-        try {
-            $this->db->select("ID,SERVICE_NAME");
-            $this->db->from($this->servicesTable);
-            $this->db->where("STATUS", "ACTIVE");
-            $this->db->order_by("SERVICE_NAME", "ASC");
-            $result = $this->db->get();
-            if ($result->num_rows() > 0) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Active services list", "data" => $result->result_array()]);
-            } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "No active services found"]);
-            }
-        } catch (Exception $e) {
-            $this->logAndThrowError($e, true);
-        }
-    }
-
-    public function getAllActiveServiceTypes_get()
-    {
-        try {
-            $this->db->select("ID,SERVICE_TYPE");
-            $this->db->from($this->serviceTypeTable);
-            $this->db->where("STATUS", "ACTIVE");
-            $this->db->order_by("SERVICE_TYPE", "ASC");
-            $result = $this->db->get();
-            if ($result->num_rows() > 0) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Active service types list", "data" => $result->result_array()]);
-            } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "No active service types found"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);

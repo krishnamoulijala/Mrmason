@@ -44,6 +44,9 @@ class Users extends REST_Controller
         return $this->db->get()->row_array();
     }
 
+    /**
+     * #API_1 || User Registration
+     */
     public function register_post()
     {
         try {
@@ -118,6 +121,9 @@ class Users extends REST_Controller
         }
     }
 
+    /**
+     * #API_2 ||User details Update
+     */
     public function update_post()
     {
         try {
@@ -181,6 +187,9 @@ class Users extends REST_Controller
         }
     }
 
+    /**
+     * #API_3 || User Login
+     */
     public function login_post()
     {
         try {
@@ -214,6 +223,45 @@ class Users extends REST_Controller
         }
     }
 
+    /**
+     * #API_4 || User Change Password
+     */
+    public function changePassword_post()
+    {
+        try {
+            $BOD_SEQ_NO = trim($this->inputData["BOD_SEQ_NO"]);
+            $NEW_PASSWORD = trim($this->inputData["NEW_PASSWORD"]);
+
+            if (empty($BOD_SEQ_NO) || empty($NEW_PASSWORD)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereArray = array('BOD_SEQ_NO' => $BOD_SEQ_NO);
+            $temp = $this->Users_model->check($this->usersTable, $whereArray);
+            if ($temp->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
+            }
+            $updateArray = array(
+                'PASSWORD' => $NEW_PASSWORD,
+                'UPDATE_DATETIME' => date('Y-m-d H:i:s')
+            );
+            $result = $this->Users_model->update($this->usersTable, $whereArray, $updateArray);
+
+            if ($result) {
+                $responseArray = $this->getUserDetails($BOD_SEQ_NO);
+                unset($responseArray['PASSWORD']);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Password changed", "data" => $responseArray]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to change the password"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_5 || User Status Change
+     */
     public function changeStatus_post()
     {
         try {
@@ -253,39 +301,9 @@ class Users extends REST_Controller
         }
     }
 
-    public function changePassword_post()
-    {
-        try {
-            $BOD_SEQ_NO = trim($this->inputData["BOD_SEQ_NO"]);
-            $NEW_PASSWORD = trim($this->inputData["NEW_PASSWORD"]);
-
-            if (empty($BOD_SEQ_NO) || empty($NEW_PASSWORD)) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
-            }
-
-            $whereArray = array('BOD_SEQ_NO' => $BOD_SEQ_NO);
-            $temp = $this->Users_model->check($this->usersTable, $whereArray);
-            if ($temp->num_rows() == 0) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
-            }
-            $updateArray = array(
-                'PASSWORD' => $NEW_PASSWORD,
-                'UPDATE_DATETIME' => date('Y-m-d H:i:s')
-            );
-            $result = $this->Users_model->update($this->usersTable, $whereArray, $updateArray);
-
-            if ($result) {
-                $responseArray = $this->getUserDetails($BOD_SEQ_NO);
-                unset($responseArray['PASSWORD']);
-                $this->utility->sendForceJSON(["status" => true, "message" => "Password changed", "data" => $responseArray]);
-            } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to change the password"]);
-            }
-        } catch (Exception $e) {
-            $this->logAndThrowError($e, true);
-        }
-    }
-
+    /**
+     * #API_17 || Get User Details
+     */
     public function getDetails_get()
     {
         try {
@@ -309,28 +327,34 @@ class Users extends REST_Controller
         }
     }
 
+    /**
+     * #API_18 || Upload User Images
+     */
     public function uploadImages_post()
     {
         try {
-            extract($_POST);
-            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
-            if (isset($_FILES["IMAGES"]) || empty($EMAIL_ID)) {
+            $EMAIL_ID = trim($this->post("EMAIL_ID"));
+            if (empty($EMAIL_ID)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"], 200);
             }
             $result = false;
-            foreach ($_FILES["IMAGES"]["tmp_name"] as $key => $tmp_name) {
-                $reports = $_FILES["IMAGES"]["name"][$key];
-                $ext = pathinfo($reports, PATHINFO_EXTENSION);
-                $reports_file_new = $this->utility->getGUID() . "." . $ext;
-                $filePath = IMAGES_PATH . $reports_file_new;
-                move_uploaded_file($_FILES["IMAGES"]["tmp_name"][$key], $filePath);
+            if (isset($_FILES["IMAGES"])) {
+                foreach ($_FILES["IMAGES"]["tmp_name"] as $key => $tmp_name) {
+                    $reports = $_FILES["IMAGES"]["name"][$key];
+                    $ext = pathinfo($reports, PATHINFO_EXTENSION);
+                    $reports_file_new = $this->utility->getGUID() . "." . $ext;
+                    $filePath = IMAGES_PATH . $reports_file_new;
+                    move_uploaded_file($_FILES["IMAGES"]["tmp_name"][$key], $filePath);
 
-                $data = array('EMAIL_ID' => $EMAIL_ID, 'IMAGE_PATH' => $filePath, 'CREATED_DATETIME' => date('Y-m-d H:i:s'));
-                $result = $this->Users_model->save($this->usersImagesTable, $data);
+                    $data = array('EMAIL_ID' => $EMAIL_ID, 'IMAGE_PATH' => $filePath, 'CREATED_DATETIME' => date('Y-m-d H:i:s'));
+                    $result = $this->Users_model->save($this->usersImagesTable, $data);
+                }
+            } else {
+                $this->response(["status" => false, "message" => "Please select images"], 200);
             }
 
             if ($result) {
-                $this->utility->sendForceJSON(['status' => true, 'message' => "File upload successful"], 200);
+                $this->utility->sendForceJSON(['status' => true, 'message' => "Images uploaded successfully"], 200);
             } else {
                 $this->utility->sendForceJSON(['status' => false, 'message' => "Unable to upload images"], 200);
             }
@@ -339,21 +363,58 @@ class Users extends REST_Controller
         }
     }
 
+    /**
+     * #API_19 || Get Uploaded Images
+     */
     public function getImages_get()
     {
         try {
             $EMAIL_ID = trim($this->get("EMAIL_ID"));
-            if(empty($EMAIL_ID)){
+            if (empty($EMAIL_ID)) {
                 $this->response(["status" => false, "message" => "Required fields missing"], 200);
             }
             $whereArray = array('EMAIL_ID' => $EMAIL_ID);
-            $temp = $this->Users_model->check($this->usersImagesTable, $whereArray);
+            $temp = $this->Users_model->selectedCheck("IMAGE_PATH,CREATED_DATETIME", $this->usersImagesTable, $whereArray);
             if ($temp->num_rows() == 0) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "No images found"]);
             } else {
                 $responseArray['base_url'] = base_url();
                 $responseArray['paths'] = $temp->result_array();
                 $this->utility->sendForceJSON(["status" => true, "message" => "User images", "data" => $responseArray]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_20 || Delete Uploaded Image
+     */
+    public function deleteImage_post()
+    {
+        try {
+            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
+            $IMAGE_PATH = trim($this->inputData["IMAGE_PATH"]);
+            if (empty($EMAIL_ID) || empty($IMAGE_PATH)) {
+                $this->response(["status" => false, "message" => "Required fields missing"], 200);
+            }
+            $whereArray = array('EMAIL_ID' => $EMAIL_ID, 'IMAGE_PATH' => $IMAGE_PATH);
+            $temp = $this->Users_model->check($this->usersImagesTable, $whereArray);
+            if ($temp->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No images found"]);
+            } else {
+                if (file_exists(FCPATH . $IMAGE_PATH)) {
+                    $result = unlink(FCPATH . $IMAGE_PATH);
+                    if ($result) {
+                        $whereArray = array('EMAIL_ID' => $EMAIL_ID, 'IMAGE_PATH' => $IMAGE_PATH);
+                        $this->Users_model->delete($this->usersImagesTable, $whereArray);
+                        $this->utility->sendForceJSON(["status" => true, "message" => "Image deleted"]);
+                    } else {
+                        $this->response(["status" => false, "message" => "Unable to delete image"], 200);
+                    }
+                } else {
+                    $this->response(["status" => false, "message" => "Image not found"], 200);
+                }
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);

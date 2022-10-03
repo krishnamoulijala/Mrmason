@@ -42,6 +42,9 @@ class Staff extends REST_Controller
         return $this->db->get()->row_array();
     }
 
+    /**
+     * #API_8 || Register service persons
+     */
     public function register_post()
     {
         try {
@@ -117,6 +120,9 @@ class Staff extends REST_Controller
         }
     }
 
+    /**
+     * #API_9 || Update service persons
+     */
     public function update_post()
     {
         try {
@@ -187,6 +193,9 @@ class Staff extends REST_Controller
         }
     }
 
+    /**
+     * #API_10 || Change the status to active and inactive
+     */
     public function changeStatus_post()
     {
         try {
@@ -226,6 +235,9 @@ class Staff extends REST_Controller
         }
     }
 
+    /**
+     * #API_11 || Update the availability
+     */
     public function updateAvailability_post()
     {
         try {
@@ -262,6 +274,9 @@ class Staff extends REST_Controller
         }
     }
 
+    /**
+     * #API_12 || Filter Available Service Persons
+     */
     public function getFilteredServicePersons_get()
     {
         try {
@@ -292,6 +307,9 @@ class Staff extends REST_Controller
         }
     }
 
+    /**
+     * #API_13 || Get All Available Service Persons
+     */
     public function getAvailableServicePersons_get()
     {
         try {
@@ -309,6 +327,9 @@ class Staff extends REST_Controller
         }
     }
 
+    /**
+     * #API_14 || Get Service Person Details
+     */
     public function getDetails_get()
     {
         try {
