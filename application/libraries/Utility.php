@@ -243,7 +243,8 @@ class Utility
 
     public function sendForceJSON($array)
     {
-        echo json_encode($array,JSON_FORCE_OBJECT);
+        header('Content-Type: application/json');
+        echo json_encode($array);
         exit;
     }
 }
