@@ -61,8 +61,6 @@ class Users extends REST_Controller
             $PINCODE_NO = trim($this->inputData["PINCODE_NO"]);
             $USER_TYPE = trim($this->inputData["USER_TYPE"]);
             $PASSWORD = trim($this->inputData["PASSWORD"]);
-            $REFERENCE_ID = trim($this->inputData["REFERENCE_ID"]);
-
 
             if (!empty($MOBILE_NO)) {
                 if (!is_numeric($MOBILE_NO) && strlen($MOBILE_NO) < 10) {

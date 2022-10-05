@@ -280,10 +280,8 @@ class Staff extends REST_Controller
     public function getFilteredServicePersons_get()
     {
         try {
-            $SERVICE_NAME = trim($this->get('SERVICE_NAME'));
+            $SERVICE_NAME = strtolower(trim($this->get('SERVICE_NAME')));
             $CITY = strtolower(trim($this->get('CITY')));
-
-            log_message("ERROR",$SERVICE_NAME);
 
             if (empty($SERVICE_NAME)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
@@ -291,12 +289,12 @@ class Staff extends REST_Controller
 
             $this->db->select("*");
             $this->db->from($this->staffTable);
-            $this->db->where('AVAILABLE_STATUS', "AVAILABLE");
-            $this->db->where('SERVICE_NAME', $SERVICE_NAME);
+            $this->db->where("LOWER(SERVICE_NAME) LIKE '%$SERVICE_NAME%'");
             if (!empty($CITY)) {
                 $this->db->where("LOWER(CITY) LIKE '%$CITY%'");
             }
             $result = $this->db->get();
+
             if ($result->num_rows() > 0) {
                 $this->utility->sendForceJSON(["status" => true, "message" => "Available service persons list", "data" => $result->result_array()]);
             } else {
