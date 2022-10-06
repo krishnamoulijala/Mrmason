@@ -8,6 +8,7 @@ class Staff extends REST_Controller
 {
     private $staffTable = "staff";
     private $inputData = "";
+
     /**
      * Loading the required classes
      * Services constructor.
@@ -31,14 +32,14 @@ class Staff extends REST_Controller
 
     /**
      * Helper method for fetching details
-     * @param $SER_PER_SEQ_ID
+     * @param $whereArray
      * @return mixed
      */
-    private function getStaffDetails($SER_PER_SEQ_ID)
+    private function getStaffDetails($whereArray)
     {
         $this->db->select("*");
         $this->db->from($this->staffTable);
-        $this->db->where('SER_PER_SEQ_ID', $SER_PER_SEQ_ID);
+        $this->db->where($whereArray);
         return $this->db->get()->row_array();
     }
 
@@ -105,12 +106,12 @@ class Staff extends REST_Controller
                 'WITH_IN_RANGE' => $WITH_IN_RANGE,
                 'REGISTERED_BY' => $REGISTERED_BY,
                 'AVAILABLE_STATUS' => 'UNAVAILABLE',
-                'STATUS' => 'INACTIVE',
+                'STATUS' => 'ACTIVE',
                 'REGISTERED_DATETIME ' => date('Y-m-d H:i:s')
             );
             $result = $this->Users_model->save($this->staffTable, $saveArray);
             if ($result) {
-                $responseArray = $this->getStaffDetails($SER_PER_SEQ_ID);
+                $responseArray = $this->getStaffDetails(array('SER_PER_SEQ_ID' => $SER_PER_SEQ_ID));
                 $this->utility->sendForceJSON(["status" => true, "message" => "Registration successful", "data" => $responseArray]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Failed to register user"]);
@@ -183,7 +184,7 @@ class Staff extends REST_Controller
             );
             $result = $this->Users_model->update($this->staffTable, $whereArray, $saveArray);
             if ($result) {
-                $responseArray = $this->getStaffDetails($SER_PER_SEQ_ID);
+                $responseArray = $this->getStaffDetails(array('SER_PER_SEQ_ID' => $SER_PER_SEQ_ID));
                 $this->utility->sendForceJSON(["status" => true, "message" => "Details updated", "data" => $responseArray]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Failed to update details"]);
@@ -241,10 +242,10 @@ class Staff extends REST_Controller
     public function updateAvailability_post()
     {
         try {
-            $SER_PER_SEQ_ID = trim($this->inputData['SER_PER_SEQ_ID']);
+            $EMAIL_ID = trim($this->inputData['EMAIL_ID']);
             $AVAILABLE_STATUS = trim($this->inputData['AVAILABLE_STATUS']);
 
-            if (empty($SER_PER_SEQ_ID) || empty($AVAILABLE_STATUS)) {
+            if (empty($EMAIL_ID) || empty($AVAILABLE_STATUS)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
@@ -252,7 +253,7 @@ class Staff extends REST_Controller
                 $this->utility->sendForceJSON(["status" => false, "message" => "Invalid input in AVAILABLE_STATUS"]);
             }
 
-            $whereArray = array('SER_PER_SEQ_ID' => $SER_PER_SEQ_ID);
+            $whereArray = array('EMAIL_ID' => $EMAIL_ID);
             $temp = $this->Users_model->check($this->staffTable, $whereArray);
             if ($temp->num_rows() == 0) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Service person not found"]);
@@ -264,7 +265,7 @@ class Staff extends REST_Controller
             );
             $result = $this->Users_model->update($this->staffTable, $whereArray, $updateArray);
             if ($result) {
-                $responseArray = $this->getStaffDetails($SER_PER_SEQ_ID);
+                $responseArray = $this->getStaffDetails(array('EMAIL_ID' => $EMAIL_ID));
                 $this->utility->sendForceJSON(["status" => true, "message" => "Service person available status updated", "data" => $responseArray]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Failed to change the service person status"]);
@@ -331,13 +332,13 @@ class Staff extends REST_Controller
     public function getDetails_get()
     {
         try {
-            $SER_PER_SEQ_ID = trim($this->get('SER_PER_SEQ_ID'));
+            $EMAIL_ID = trim($this->get('EMAIL_ID'));
 
-            if (empty($SER_PER_SEQ_ID)) {
+            if (empty($EMAIL_ID)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            $responseArray = $this->getStaffDetails($SER_PER_SEQ_ID);
+            $responseArray = $this->getStaffDetails(array('EMAIL_ID' => $EMAIL_ID));
             if (!empty($responseArray)) {
                 $this->utility->sendForceJSON(["status" => true, "message" => "Details of service person", "data" => $responseArray]);
             } else {
