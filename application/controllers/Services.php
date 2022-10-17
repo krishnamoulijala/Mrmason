@@ -145,4 +145,113 @@ class Services extends REST_Controller
             $this->logAndThrowError($e, true);
         }
     }
+
+    /**
+     * #API_21 || Add Service Types
+     */
+    public function insertType_post()
+    {
+        try {
+            $SERVICE_TYPE = strtolower(trim($this->inputData["SERVICE_TYPE"]));
+            $BUSINESS_NAME = trim($this->inputData["BUSINESS_NAME"]);
+            $BUSINESS_TYPE = trim($this->inputData["BUSINESS_TYPE"]);
+            $BRAND_NAME = trim($this->inputData["BRAND_NAME"]);
+            $DOOR_DELIVERY = trim($this->inputData["DOOR_DELIVERY"]);
+            $DESCRIPTION = trim($this->inputData["DESCRIPTION"]);
+            $WEIGHT = trim($this->inputData["WEIGHT"]);
+            $HEIGHT = trim($this->inputData["HEIGHT"]);
+            $MRP = trim($this->inputData["MRP"]);
+            $PRICE = trim($this->inputData["PRICE"]);
+
+            if (empty($SERVICE_TYPE)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(SERVICE_TYPE)='$SERVICE_TYPE'";
+            $tempResult = $this->Users_model->check($this->serviceTypeTable, $whereString);
+            if ($tempResult->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Service type already exists"]);
+            }
+
+            $saveArray = array(
+                'SERVICE_TYPE' => strtoupper($SERVICE_TYPE),
+                'BUSINESS_NAME' => $BUSINESS_NAME,
+                'BUSINESS_TYPE' => $BUSINESS_TYPE,
+                'BRAND_NAME' => $BRAND_NAME,
+                'DOOR_DELIVERY' => $DOOR_DELIVERY,
+                'DESCRIPTION' => $DESCRIPTION,
+                'WEIGHT' => $WEIGHT,
+                'HEIGHT' => $HEIGHT,
+                'MRP' => $MRP,
+                'PRICE' => $PRICE,
+                'CREATED' => date('Y-m-d H:i:s')
+            );
+            $result = $this->Users_model->save($this->serviceTypeTable, $saveArray);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Service type added"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add service type"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_22 || Update Service Types
+     */
+    public function updateType_post()
+    {
+        try {
+            $SERVICE_TYPE = strtolower(trim($this->inputData["SERVICE_TYPE"]));
+            $BUSINESS_NAME = trim($this->inputData["BUSINESS_NAME"]);
+            $BUSINESS_TYPE = trim($this->inputData["BUSINESS_TYPE"]);
+            $BRAND_NAME = trim($this->inputData["BRAND_NAME"]);
+            $DOOR_DELIVERY = trim($this->inputData["DOOR_DELIVERY"]);
+            $DESCRIPTION = trim($this->inputData["DESCRIPTION"]);
+            $WEIGHT = trim($this->inputData["WEIGHT"]);
+            $HEIGHT = trim($this->inputData["HEIGHT"]);
+            $MRP = trim($this->inputData["MRP"]);
+            $PRICE = trim($this->inputData["PRICE"]);
+            $ID = trim($this->inputData["ID"]);
+
+            if (empty($SERVICE_TYPE) || empty($ID)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereArray = array('ID' => $ID);
+            $tempResult = $this->Users_model->check($this->serviceTypeTable, $whereArray);
+            if ($tempResult->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Service ID not found"]);
+            }
+
+            $whereString = "LOWER(SERVICE_TYPE)='$SERVICE_TYPE' AND ID !='$ID'";
+            $tempResult = $this->Users_model->check($this->serviceTypeTable, $whereString);
+            if ($tempResult->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Service type already exists"]);
+            }
+
+            $updateArray = array(
+                'SERVICE_TYPE' => strtoupper($SERVICE_TYPE),
+                'BUSINESS_NAME' => $BUSINESS_NAME,
+                'BUSINESS_TYPE' => $BUSINESS_TYPE,
+                'BRAND_NAME' => $BRAND_NAME,
+                'DOOR_DELIVERY' => $DOOR_DELIVERY,
+                'DESCRIPTION' => $DESCRIPTION,
+                'WEIGHT' => $WEIGHT,
+                'HEIGHT' => $HEIGHT,
+                'MRP' => $MRP,
+                'PRICE' => $PRICE,
+                'UPDATED' => date('Y-m-d H:i:s')
+            );
+            $result = $this->Users_model->update($this->serviceTypeTable, $whereArray, $updateArray);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Service type updated"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to update service type"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
 }

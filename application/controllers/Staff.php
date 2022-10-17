@@ -7,6 +7,7 @@ require APPPATH . 'libraries/REST_Controller.php';
 class Staff extends REST_Controller
 {
     private $staffTable = "staff";
+    private $usersImagesTable = "images";
     private $inputData = "";
 
     /**
@@ -294,10 +295,18 @@ class Staff extends REST_Controller
             if (!empty($CITY)) {
                 $this->db->where("LOWER(CITY) LIKE '%$CITY%'");
             }
+            $this->db->group_by('EMAIL_ID');
             $result = $this->db->get();
 
             if ($result->num_rows() > 0) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Available service persons list", "data" => $result->result_array()]);
+                $resultArray = $result->result_array();
+                $responseArray['DATA'] = array();
+                foreach ($resultArray as $eachItem) {
+                    $eachItem['IMAGE_PATHS'] = $this->Users_model->selectedCheck("IMAGE_PATH,CREATED_DATETIME", $this->usersImagesTable, array('EMAIL_ID' => $eachItem['EMAIL_ID']))->result_array();
+                    array_push($responseArray['DATA'], $eachItem);
+                }
+                $responseArray['BASE_URL'] = base_url();
+                $this->utility->sendForceJSON(["status" => true, "message" => "Available service persons list", "data" => $responseArray]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "No available service persons found"]);
             }
