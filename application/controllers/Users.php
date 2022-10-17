@@ -418,4 +418,40 @@ class Users extends REST_Controller
             $this->logAndThrowError($e, true);
         }
     }
+
+    /**
+     * #API_23 || User Forgot Password (Update)
+     */
+    public function forgotPassword_post()
+    {
+        try {
+            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
+            $NEW_PASSWORD = trim($this->inputData["NEW_PASSWORD"]);
+
+            if (empty($EMAIL_ID) || empty($NEW_PASSWORD)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereArray = array('EMAIL_ID' => $EMAIL_ID);
+            $temp = $this->Users_model->check($this->usersTable, $whereArray);
+            if ($temp->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
+            }
+            $updateArray = array(
+                'PASSWORD' => $NEW_PASSWORD,
+                'UPDATE_DATETIME' => date('Y-m-d H:i:s')
+            );
+            $result = $this->Users_model->update($this->usersTable, $whereArray, $updateArray);
+
+            if ($result) {
+                $responseArray = $this->getUserDetails($EMAIL_ID);
+                unset($responseArray['PASSWORD']);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Password changed", "data" => $responseArray]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to change the password"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
 }

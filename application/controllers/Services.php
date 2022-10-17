@@ -58,7 +58,7 @@ class Services extends REST_Controller
     public function getAllActiveServiceTypes_get()
     {
         try {
-            $this->db->select("ID,SERVICE_TYPE");
+            $this->db->select("*");
             $this->db->from($this->serviceTypeTable);
             $this->db->where("STATUS", "ACTIVE");
             $this->db->order_by("SERVICE_TYPE", "ASC");
