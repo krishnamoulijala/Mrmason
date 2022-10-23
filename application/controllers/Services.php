@@ -58,9 +58,14 @@ class Services extends REST_Controller
     public function getAllActiveServiceTypes_get()
     {
         try {
+            $EMAIL_ID = trim($this->get('EMAIL_ID'));
+
             $this->db->select("*");
             $this->db->from($this->serviceTypeTable);
             $this->db->where("STATUS", "ACTIVE");
+            if (!empty($EMAIL_ID)) {
+                $this->db->where("EMAIL_ID", "$EMAIL_ID");
+            }
             $this->db->order_by("SERVICE_TYPE", "ASC");
             $result = $this->db->get();
             if ($result->num_rows() > 0) {
@@ -152,6 +157,7 @@ class Services extends REST_Controller
     public function insertType_post()
     {
         try {
+            $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
             $SERVICE_TYPE = strtolower(trim($this->inputData["SERVICE_TYPE"]));
             $BUSINESS_NAME = trim($this->inputData["BUSINESS_NAME"]);
             $BUSINESS_TYPE = trim($this->inputData["BUSINESS_TYPE"]);
@@ -163,11 +169,11 @@ class Services extends REST_Controller
             $MRP = trim($this->inputData["MRP"]);
             $PRICE = trim($this->inputData["PRICE"]);
 
-            if (empty($SERVICE_TYPE)) {
+            if (empty($SERVICE_TYPE) || empty($EMAIL_ID)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            $whereString = "LOWER(SERVICE_TYPE)='$SERVICE_TYPE'";
+            $whereString = "LOWER(SERVICE_TYPE)='$SERVICE_TYPE' AND EMAIL_ID='$EMAIL_ID'";
             $tempResult = $this->Users_model->check($this->serviceTypeTable, $whereString);
             if ($tempResult->num_rows() > 0) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Service type already exists"]);
@@ -176,6 +182,7 @@ class Services extends REST_Controller
             $saveArray = array(
                 'SERVICE_TYPE' => strtoupper($SERVICE_TYPE),
                 'BUSINESS_NAME' => $BUSINESS_NAME,
+                'EMAIL_ID' => $EMAIL_ID,
                 'BUSINESS_TYPE' => $BUSINESS_TYPE,
                 'BRAND_NAME' => $BRAND_NAME,
                 'DOOR_DELIVERY' => $DOOR_DELIVERY,
@@ -204,6 +211,7 @@ class Services extends REST_Controller
     {
         try {
             $SERVICE_TYPE = strtolower(trim($this->inputData["SERVICE_TYPE"]));
+            $EMAIL_ID = strtolower(trim($this->inputData["EMAIL_ID"]));
             $BUSINESS_NAME = trim($this->inputData["BUSINESS_NAME"]);
             $BUSINESS_TYPE = trim($this->inputData["BUSINESS_TYPE"]);
             $BRAND_NAME = trim($this->inputData["BRAND_NAME"]);
@@ -215,7 +223,7 @@ class Services extends REST_Controller
             $PRICE = trim($this->inputData["PRICE"]);
             $ID = trim($this->inputData["ID"]);
 
-            if (empty($SERVICE_TYPE) || empty($ID)) {
+            if (empty($SERVICE_TYPE) || empty($ID) || empty($EMAIL_ID)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
@@ -233,6 +241,7 @@ class Services extends REST_Controller
 
             $updateArray = array(
                 'SERVICE_TYPE' => strtoupper($SERVICE_TYPE),
+                'EMAIL_ID' => $EMAIL_ID,
                 'BUSINESS_NAME' => $BUSINESS_NAME,
                 'BUSINESS_TYPE' => $BUSINESS_TYPE,
                 'BRAND_NAME' => $BRAND_NAME,
