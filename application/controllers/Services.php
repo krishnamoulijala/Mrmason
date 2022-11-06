@@ -211,8 +211,6 @@ class Services extends REST_Controller
     public function updateType_post()
     {
         try {
-            $SERVICE_TYPE = strtolower(trim($this->inputData["SERVICE_TYPE"]));
-            $EMAIL_ID = strtolower(trim($this->inputData["EMAIL_ID"]));
             $BUSINESS_NAME = trim($this->inputData["BUSINESS_NAME"]);
             $BUSINESS_TYPE = trim($this->inputData["BUSINESS_TYPE"]);
             $BRAND_NAME = trim($this->inputData["BRAND_NAME"]);
@@ -224,7 +222,7 @@ class Services extends REST_Controller
             $PRICE = trim($this->inputData["PRICE"]);
             $ID = trim($this->inputData["ID"]);
 
-            if (empty($SERVICE_TYPE) || empty($ID) || empty($EMAIL_ID)) {
+            if (empty($ID)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
@@ -234,15 +232,7 @@ class Services extends REST_Controller
                 $this->utility->sendForceJSON(["status" => false, "message" => "Service ID not found"]);
             }
 
-            $whereString = "LOWER(SERVICE_TYPE)='$SERVICE_TYPE' AND ID !='$ID' AND EMAIL_ID !='$EMAIL_ID'";
-            $tempResult = $this->Users_model->check($this->serviceTypeTable, $whereString);
-            if ($tempResult->num_rows() > 0) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Service type already exists"]);
-            }
-
             $updateArray = array(
-                'SERVICE_TYPE' => strtoupper($SERVICE_TYPE),
-                'EMAIL_ID' => $EMAIL_ID,
                 'BUSINESS_NAME' => $BUSINESS_NAME,
                 'BUSINESS_TYPE' => $BUSINESS_TYPE,
                 'BRAND_NAME' => $BRAND_NAME,
@@ -275,15 +265,20 @@ class Services extends REST_Controller
             $CITY = strtolower(trim($this->get('CITY')));
             $BUSINESS_TYPE = strtolower(trim($this->get('BUSINESS_TYPE')));
 
-            if (empty($SERVICE_TYPE) || empty($BUSINESS_TYPE) || empty($CITY)) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            if (empty($SERVICE_TYPE) || empty($CITY)) {
+                $this->response(["status" => false, "message" => "Required fields missing"], 200);
             }
 
-            $this->db->select("st.*");
+            $this->db->select("st.*,u.NAME,u.CITY,u.MOBILE_NO,u.PINCODE_NO,u.ADDRESS");
             $this->db->from("$this->serviceTypeTable st");
-            $this->db->where("LOWER(st.SERVICE_TYPE) LIKE '%$SERVICE_TYPE%'");
+            if (!empty($SERVICE_TYPE)) {
+                $this->db->where("LOWER(st.SERVICE_TYPE) LIKE '%$SERVICE_TYPE%'");
+            }
             if (!empty($CITY)) {
                 $this->db->where("LOWER(u.CITY) LIKE '%$CITY%'");
+            }
+            if (!empty($BUSINESS_TYPE)) {
+                $this->db->where("LOWER(st.BUSINESS_TYPE) LIKE '%$BUSINESS_TYPE%'");
             }
             $this->db->join('users u', 'st.EMAIL_ID=u.EMAIL_ID', 'left');
             $this->db->group_by('st.EMAIL_ID');
