@@ -67,6 +67,7 @@ class Services extends REST_Controller
                 $this->db->where("EMAIL_ID", "$EMAIL_ID");
             }
             $this->db->order_by("SERVICE_TYPE", "ASC");
+            $this->db->group_by('SERVICE_TYPE');
             $result = $this->db->get();
             if ($result->num_rows() > 0) {
                 $this->utility->sendForceJSON(["status" => true, "message" => "Active service types list", "data" => $result->result_array()]);
@@ -229,11 +230,11 @@ class Services extends REST_Controller
 
             $whereArray = array('ID' => $ID);
             $tempResult = $this->Users_model->check($this->serviceTypeTable, $whereArray);
-            if ($tempResult->num_rows() > 0) {
+            if ($tempResult->num_rows() == 0) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Service ID not found"]);
             }
 
-            $whereString = "LOWER(SERVICE_TYPE)='$SERVICE_TYPE' AND ID !='$ID'";
+            $whereString = "LOWER(SERVICE_TYPE)='$SERVICE_TYPE' AND ID !='$ID' AND EMAIL_ID !='$EMAIL_ID'";
             $tempResult = $this->Users_model->check($this->serviceTypeTable, $whereString);
             if ($tempResult->num_rows() > 0) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Service type already exists"]);
@@ -258,6 +259,41 @@ class Services extends REST_Controller
                 $this->utility->sendForceJSON(["status" => true, "message" => "Service type updated"]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Failed to update service type"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_24 || Filter Available Service Types Related Persons
+     */
+    public function getFilteredServiceTypePersons_get()
+    {
+        try {
+            $SERVICE_TYPE = strtolower(trim($this->get('SERVICE_TYPE')));
+            $CITY = strtolower(trim($this->get('CITY')));
+            $BUSINESS_TYPE = strtolower(trim($this->get('BUSINESS_TYPE')));
+
+            if (empty($SERVICE_TYPE) || empty($BUSINESS_TYPE) || empty($CITY)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $this->db->select("st.*");
+            $this->db->from("$this->serviceTypeTable st");
+            $this->db->where("LOWER(st.SERVICE_TYPE) LIKE '%$SERVICE_TYPE%'");
+            if (!empty($CITY)) {
+                $this->db->where("LOWER(u.CITY) LIKE '%$CITY%'");
+            }
+            $this->db->join('users u', 'st.EMAIL_ID=u.EMAIL_ID', 'left');
+            $this->db->group_by('st.EMAIL_ID');
+            $result = $this->db->get();
+
+            if ($result->num_rows() > 0) {
+                $resultArray = $result->result_array();
+                $this->utility->sendForceJSON(["status" => true, "message" => "Available service type persons list", "data" => $resultArray]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No available service type persons found"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
