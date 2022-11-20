@@ -300,6 +300,26 @@ class Users extends REST_Controller
     }
 
     /**
+     * #API_31 || Get All Users
+     */
+    public function getAllUsers_get()
+    {
+        try {
+            $this->db->select("EMAIL_ID,NAME,BUSINESS_NAME,MOBILE_NO,USER_TYPE,ADDRESS,STATUS,REGISTRATION_DATETIME");
+            $this->db->from($this->usersTable);
+            $this->db->order_by("NAME", "ASC");
+            $result = $this->db->get();
+            if ($result->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => true, "message" => "All Users", "data" => $result->result_array()]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
      * #API_17 || Get User Details
      */
     public function getDetails_get()

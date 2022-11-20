@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1c31dff-cdc5-4545-bd64-39f13b39f3a0" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/application/controllers/Admin.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Services.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Users.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,8 +22,8 @@
       <file leaf-file-name="Users.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/Users.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="21" column="28" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="28" />
+            <state relative-caret-position="17">
+              <caret line="302" column="8" lean-forward="true" selection-start-line="302" selection-start-column="8" selection-end-line="302" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -29,8 +31,8 @@
       <file leaf-file-name="Users_model.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/models/Users_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
+            <state relative-caret-position="233">
+              <caret line="31" column="26" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -38,8 +40,8 @@
       <file leaf-file-name="Services.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/controllers/Services.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="251" column="13" lean-forward="true" selection-start-line="251" selection-start-column="13" selection-end-line="251" selection-end-column="13" />
+            <state relative-caret-position="215">
+              <caret line="63" column="45" selection-start-line="63" selection-start-column="45" selection-end-line="63" selection-end-column="45" />
               <folding>
                 <element signature="n#insertName_post#0;n#Services#0;n#!!top" />
                 <element signature="n#updateName_post#0;n#Services#0;n#!!top" />
@@ -51,8 +53,17 @@
       <file leaf-file-name="Staff.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/Staff.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-5">
-              <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+            <state relative-caret-position="215">
+              <caret line="340" column="20" selection-start-line="340" selection-start-column="20" selection-end-line="340" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Admin.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/controllers/Admin.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="317">
+              <caret line="229" column="47" lean-forward="true" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -61,20 +72,11 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>BOD_SEQ_NO</find>
-      <find>AVAILABLE</find>
-      <find>'data'</find>
-      <find>AVAILABLE_STATUS</find>
-      <find>UNAVAILABLE</find>
-      <find>SERVICE_T</find>
-      <find>serviceTypeTable</find>
-      <find>SERVICE_NAME</find>
       <find>updateAvailability</find>
       <find>MOBILE_NO</find>
       <find>json</find>
       <find>retrieve from the GET</find>
       <find>'])</find>
-      <find>Users_model</find>
       <find>date(</find>
       <find>Users_model-&gt;save(</find>
       <find>select</find>
@@ -91,6 +93,15 @@
       <find>API_</find>
       <find>API_23</find>
       <find>join</find>
+      <find>API_24</find>
+      <find>delete</find>
+      <find>in mm</find>
+      <find>utility</find>
+      <find>Users_model</find>
+      <find>&quot;data&quot;</find>
+      <find>BRAND</find>
+      <find>API_3</find>
+      <find>result_array</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -112,8 +123,9 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/application/libraries/Utility.php" />
         <option value="$PROJECT_DIR$/application/models/Users_model.php" />
-        <option value="$PROJECT_DIR$/application/controllers/Users.php" />
         <option value="$PROJECT_DIR$/application/controllers/Staff.php" />
+        <option value="$PROJECT_DIR$/application/controllers/Users.php" />
+        <option value="$PROJECT_DIR$/application/controllers/Admin.php" />
         <option value="$PROJECT_DIR$/application/controllers/Services.php" />
       </list>
     </option>
@@ -128,9 +140,9 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="950" />
-    <option name="width" value="980" />
-    <option name="height" value="1030" />
+    <option name="x" value="-8" />
+    <option name="width" value="977" />
+    <option name="height" value="1028" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -138,6 +150,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -160,7 +173,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -218,7 +230,8 @@
       <workItem from="1666069227286" duration="158000" />
       <workItem from="1666533802902" duration="1207000" />
       <workItem from="1666539459769" duration="68000" />
-      <workItem from="1667658330001" duration="5581000" />
+      <workItem from="1667658330001" duration="5739000" />
+      <workItem from="1668952343667" duration="6542000" />
     </task>
     <task id="LOCAL-00001" summary="Address added into the getFilteredServicePersons API">
       <created>1664209440500</created>
@@ -311,11 +324,18 @@
       <option name="project" value="LOCAL" />
       <updated>1667756237093</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="APIs Modifications : &#10;&#10;API_24 : Added new API&#10;-&gt; Modified mandatory for because front end mandatory condition added.">
+      <created>1667758126404</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1667758126404</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60127000" />
+    <option name="totallyTimeSpent" value="66827000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="830" extended-state="6" />
@@ -329,7 +349,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3299712" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3299712" />
       <window_info active="true" anchor="right" id="Remote Host" order="3" visible="true" weight="0.17651007" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15570469" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15771812" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3299712" />
@@ -368,19 +388,13 @@
     <MESSAGE value="Return of all Active Service Types" />
     <MESSAGE value="APIs Modifications : &#10;&#10;API_7 : Added new parameter to *GET* the individual service types&#10;-&gt; EMAIL_ID (not mandatory)&#10;&#10;API_21 : Added new parameter to *INSERT* the individual services of material developers&#10;-&gt; EMAIL_ID (mandatory)&#10;&#10;API_22 : Added new parameter to *UPDATE* the individual services of material developers&#10;-&gt; EMAIL_ID (mandatory)" />
     <MESSAGE value="APIs Modifications : &#10;&#10;API_24 : Added new API&#10;-&gt; EMAIL_ID, SERVICE_TYPE, BUSINESS_TYPE (mandatory)" />
-    <option name="LAST_COMMIT_MESSAGE" value="APIs Modifications : &#10;&#10;API_24 : Added new API&#10;-&gt; EMAIL_ID, SERVICE_TYPE, BUSINESS_TYPE (mandatory)" />
+    <MESSAGE value="APIs Modifications : &#10;&#10;API_24 : Added new API&#10;-&gt; Modified mandatory for because front end mandatory condition added." />
+    <option name="LAST_COMMIT_MESSAGE" value="APIs Modifications : &#10;&#10;API_24 : Added new API&#10;-&gt; Modified mandatory for because front end mandatory condition added." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/controllers/Services.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Staff.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5032">
@@ -605,29 +619,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/models/Users_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Users.php">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="233">
-          <caret line="21" column="28" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="28" />
+          <caret line="31" column="26" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Staff.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5">
-          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+        <state relative-caret-position="215">
+          <caret line="340" column="20" selection-start-line="340" selection-start-column="20" selection-end-line="340" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Users.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="302" column="8" lean-forward="true" selection-start-line="302" selection-start-column="8" selection-end-line="302" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="229" column="47" lean-forward="true" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="47" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Services.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="251" column="13" lean-forward="true" selection-start-line="251" selection-start-column="13" selection-end-line="251" selection-end-column="13" />
+        <state relative-caret-position="215">
+          <caret line="63" column="45" selection-start-line="63" selection-start-column="45" selection-end-line="63" selection-end-column="45" />
           <folding>
             <element signature="n#insertName_post#0;n#Services#0;n#!!top" />
             <element signature="n#updateName_post#0;n#Services#0;n#!!top" />
