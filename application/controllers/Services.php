@@ -8,7 +8,6 @@ class Services extends REST_Controller
 {
     private $servicesTable = "services";
     private $serviceTypeTable = "serviceTypes";
-    private $materialTable = "materials";
     private $inputData = "";
 
     /**
@@ -59,11 +58,18 @@ class Services extends REST_Controller
     public function getAllActiveServiceTypes_get()
     {
         try {
-            $this->db->select("MATERIAL");
-            $this->db->from($this->materialTable);
+            $EMAIL_ID = trim($this->get('EMAIL_ID'));
+
+            if (empty($EMAIL_ID)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $this->db->select("*");
+            $this->db->from($this->serviceTypeTable);
             $this->db->where("STATUS", "ACTIVE");
-            $this->db->order_by("MATERIAL", "ASC");
-            $this->db->group_by("MATERIAL");
+            $this->db->where("EMAIL_ID", "$EMAIL_ID");
+            $this->db->order_by("SERVICE_TYPE", "ASC");
+            $this->db->group_by('SERVICE_TYPE');
             $result = $this->db->get();
             if ($result->num_rows() > 0) {
                 $this->utility->sendForceJSON(["status" => true, "message" => "Active service types list", "data" => $result->result_array()]);

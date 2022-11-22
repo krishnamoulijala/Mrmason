@@ -261,4 +261,26 @@ class Admin extends REST_Controller
             $this->logAndThrowError($e, true);
         }
     }
+
+    /**
+     * #API_34 || Get Materials
+     */
+    public function getMaterials_get()
+    {
+        try {
+            $this->db->select("MATERIAL");
+            $this->db->from($this->materialTable);
+            $this->db->where("STATUS", "ACTIVE");
+            $this->db->order_by("MATERIAL", "ASC");
+            $this->db->group_by("MATERIAL");
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Materials list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No materials found"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
 }

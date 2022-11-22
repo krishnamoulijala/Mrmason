@@ -305,7 +305,7 @@ class Users extends REST_Controller
     public function getAllUsers_get()
     {
         try {
-            $this->db->select("EMAIL_ID,NAME,BUSINESS_NAME,MOBILE_NO,USER_TYPE,ADDRESS,STATUS,REGISTRATION_DATETIME");
+            $this->db->select("EMAIL_ID,NAME,BUSINESS_NAME,MOBILE_NO,USER_TYPE,ADDRESS,STATUS,REGISTRATION_DATETIME,PINCODE_NO,CITY");
             $this->db->from($this->usersTable);
             $this->db->order_by("NAME", "ASC");
             $result = $this->db->get();
