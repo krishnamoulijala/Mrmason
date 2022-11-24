@@ -4,8 +4,6 @@
     <list default="true" id="b1c31dff-cdc5-4545-bd64-39f13b39f3a0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/Admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Services.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Users.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,8 +20,8 @@
       <file leaf-file-name="Users.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/Users.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="307" column="131" selection-start-line="307" selection-start-column="131" selection-end-line="307" selection-end-column="131" />
+            <state relative-caret-position="5032">
+              <caret line="296" column="8" selection-start-line="296" selection-start-column="8" selection-end-line="296" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -40,7 +38,7 @@
       <file leaf-file-name="Services.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/Services.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
+            <state relative-caret-position="1071">
               <caret line="63" column="103" selection-start-line="63" selection-start-column="103" selection-end-line="63" selection-end-column="103" />
               <folding>
                 <element signature="n#insertName_post#0;n#Services#0;n#!!top" />
@@ -62,8 +60,8 @@
       <file leaf-file-name="Admin.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/controllers/Admin.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
-              <caret line="265" column="31" lean-forward="true" selection-start-line="265" selection-start-column="31" selection-end-line="265" selection-end-column="31" />
+            <state relative-caret-position="442">
+              <caret line="74" column="93" selection-start-line="74" selection-start-column="93" selection-end-line="74" selection-end-column="93" />
             </state>
           </provider>
         </entry>
@@ -141,7 +139,7 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-10" />
-    <option name="width" value="979" />
+    <option name="width" value="980" />
     <option name="height" value="1030" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -233,7 +231,8 @@
       <workItem from="1667658330001" duration="5739000" />
       <workItem from="1668952343667" duration="6542000" />
       <workItem from="1669009553217" duration="845000" />
-      <workItem from="1669101189132" duration="596000" />
+      <workItem from="1669101189132" duration="1478000" />
+      <workItem from="1669283239487" duration="894000" />
     </task>
     <task id="LOCAL-00001" summary="Address added into the getFilteredServicePersons API">
       <created>1664209440500</created>
@@ -333,11 +332,18 @@
       <option name="project" value="LOCAL" />
       <updated>1667758126404</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="APIs Modifications : &#10;&#10;New APIs : API_34&#10;-&gt; Modified API_7 to old one&#10;-&gt; Response changed in API_31">
+      <created>1669101901195</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1669101901195</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68268000" />
+    <option name="totallyTimeSpent" value="70044000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="830" extended-state="6" />
@@ -346,18 +352,16 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.3299712" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="File Transfer" order="7" weight="0.3299712" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3299712" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3299712" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3299712" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3299712" />
       <window_info anchor="right" id="Remote Host" order="3" visible="true" weight="0.17651007" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16174497" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16375838" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3299712" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24966443" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -365,6 +369,8 @@
       <window_info anchor="bottom" id="Command Line Tools Console" order="8" weight="0.3299712" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="File Transfer" order="7" weight="0.3299712" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3299712" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -401,7 +407,8 @@
     <MESSAGE value="APIs Modifications : &#10;&#10;API_7 : Added new parameter to *GET* the individual service types&#10;-&gt; EMAIL_ID (not mandatory)&#10;&#10;API_21 : Added new parameter to *INSERT* the individual services of material developers&#10;-&gt; EMAIL_ID (mandatory)&#10;&#10;API_22 : Added new parameter to *UPDATE* the individual services of material developers&#10;-&gt; EMAIL_ID (mandatory)" />
     <MESSAGE value="APIs Modifications : &#10;&#10;API_24 : Added new API&#10;-&gt; EMAIL_ID, SERVICE_TYPE, BUSINESS_TYPE (mandatory)" />
     <MESSAGE value="APIs Modifications : &#10;&#10;API_24 : Added new API&#10;-&gt; Modified mandatory for because front end mandatory condition added." />
-    <option name="LAST_COMMIT_MESSAGE" value="APIs Modifications : &#10;&#10;API_24 : Added new API&#10;-&gt; Modified mandatory for because front end mandatory condition added." />
+    <MESSAGE value="APIs Modifications : &#10;&#10;New APIs : API_34&#10;-&gt; Modified API_7 to old one&#10;-&gt; Response changed in API_31" />
+    <option name="LAST_COMMIT_MESSAGE" value="APIs Modifications : &#10;&#10;New APIs : API_34&#10;-&gt; Modified API_7 to old one&#10;-&gt; Response changed in API_31" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -643,16 +650,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Users.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="307" column="131" selection-start-line="307" selection-start-column="131" selection-end-line="307" selection-end-column="131" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Services.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
+        <state relative-caret-position="1071">
           <caret line="63" column="103" selection-start-line="63" selection-start-column="103" selection-end-line="63" selection-end-column="103" />
           <folding>
             <element signature="n#insertName_post#0;n#Services#0;n#!!top" />
@@ -661,10 +661,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Users.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5032">
+          <caret line="296" column="8" selection-start-line="296" selection-start-column="8" selection-end-line="296" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Admin.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="265" column="31" lean-forward="true" selection-start-line="265" selection-start-column="31" selection-end-line="265" selection-end-column="31" />
+        <state relative-caret-position="442">
+          <caret line="74" column="93" selection-start-line="74" selection-start-column="93" selection-end-line="74" selection-end-column="93" />
         </state>
       </provider>
     </entry>

@@ -33,32 +33,46 @@ class Admin extends REST_Controller
     }
 
     /**
-     * #API_25 || Add Size Number
+     * #API_25 || Add Size Number And Brand
      */
-    public function insertSize_post()
+    public function insertSizeBrand_post()
     {
         try {
             $SIZE = trim($this->inputData["SIZE"]);
+            $BRAND = strtolower(trim($this->inputData["BRAND"]));
+            $result = false;
 
-            if (empty($SIZE)) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            if (!empty($BRAND)) {
+                $whereString = "LOWER(BRAND)='$BRAND'";
+                $tempResult = $this->Users_model->check($this->brandsTable, $whereString);
+                if ($tempResult->num_rows() > 0) {
+                    $this->utility->sendForceJSON(["status" => false, "message" => "Brand already exists"]);
+                }
+
+                $saveArray = array(
+                    'BRAND' => strtoupper($BRAND),
+                    'CREATED' => date('Y-m-d H:i:s')
+                );
+                $result = $this->Users_model->save($this->brandsTable, $saveArray);
             }
 
-            $whereString = "SIZE='$SIZE'";
-            $tempResult = $this->Users_model->check($this->sizesTable, $whereString);
-            if ($tempResult->num_rows() > 0) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Size already exists"]);
-            }
+            if (!empty($SIZE)) {
+                $whereString = "SIZE='$SIZE'";
+                $tempResult = $this->Users_model->check($this->sizesTable, $whereString);
+                if ($tempResult->num_rows() > 0) {
+                    $this->utility->sendForceJSON(["status" => false, "message" => "Size already exists"]);
+                }
 
-            $saveArray = array(
-                'SIZE' => strtoupper($SIZE),
-                'CREATED' => date('Y-m-d H:i:s')
-            );
-            $result = $this->Users_model->save($this->sizesTable, $saveArray);
+                $saveArray = array(
+                    'SIZE' => strtoupper($SIZE),
+                    'CREATED' => date('Y-m-d H:i:s')
+                );
+                $result = $this->Users_model->save($this->sizesTable, $saveArray);
+            }
             if ($result) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Size added"]);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Added"]);
             } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add size"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -88,39 +102,6 @@ class Admin extends REST_Controller
                 $this->utility->sendForceJSON(["status" => true, "message" => "Size deleted"]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete size"]);
-            }
-        } catch (Exception $e) {
-            $this->logAndThrowError($e, true);
-        }
-    }
-
-    /**
-     * #API_27 || Add Brand Name
-     */
-    public function insertBrand_post()
-    {
-        try {
-            $BRAND = strtolower(trim($this->inputData["BRAND"]));
-
-            if (empty($BRAND)) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
-            }
-
-            $whereString = "LOWER(BRAND)='$BRAND'";
-            $tempResult = $this->Users_model->check($this->brandsTable, $whereString);
-            if ($tempResult->num_rows() > 0) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Brand already exists"]);
-            }
-
-            $saveArray = array(
-                'BRAND' => strtoupper($BRAND),
-                'CREATED' => date('Y-m-d H:i:s')
-            );
-            $result = $this->Users_model->save($this->brandsTable, $saveArray);
-            if ($result) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Brand added"]);
-            } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add brand"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
