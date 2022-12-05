@@ -266,6 +266,8 @@ class Services extends REST_Controller
             $SERVICE_TYPE = strtolower(trim($this->get('SERVICE_TYPE')));
             $CITY = strtolower(trim($this->get('CITY')));
             $BUSINESS_TYPE = strtolower(trim($this->get('BUSINESS_TYPE')));
+            $SIZE = strtolower(trim($this->get('SIZE')));
+            $BRAND = strtolower(trim($this->get('BRAND')));
 
             if (empty($SERVICE_TYPE) || empty($CITY)) {
                 $this->response(["status" => false, "message" => "Required fields missing"], 200);
@@ -282,8 +284,15 @@ class Services extends REST_Controller
             if (!empty($BUSINESS_TYPE)) {
                 $this->db->where("LOWER(st.BUSINESS_TYPE) LIKE '%$BUSINESS_TYPE%'");
             }
+            if (!empty($BRAND)) {
+                $this->db->where("LOWER(st.BRAND_NAME) LIKE '%$BRAND%'");
+            }
+            if (!empty($SIZE)) {
+                $this->db->where("LOWER(st.WEIGHT) LIKE '%$SIZE%'");
+            }
             $this->db->join('users u', 'st.EMAIL_ID=u.EMAIL_ID', 'left');
             $this->db->group_by('st.EMAIL_ID');
+            $this->db->where("st.STATUS", "ACTIVE");
             $result = $this->db->get();
 
             if ($result->num_rows() > 0) {
