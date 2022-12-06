@@ -7,6 +7,7 @@ require APPPATH . 'libraries/REST_Controller.php';
 class Users extends REST_Controller
 {
     private $usersTable = "users";
+    private $otpsTable = "otps";
     private $usersImagesTable = "images";
     private $inputData = "";
 
@@ -110,6 +111,17 @@ class Users extends REST_Controller
             if ($result) {
                 $responseArray = $this->getUserDetails($BOD_SEQ_NO);
                 unset($responseArray['PASSWORD']);
+
+                $OTP = $this->utility->generate_otp();
+                $OTPArray = array(
+                    'MOBILE_NO' => $MOBILE_NO,
+                    'OTP' => $OTP
+                );
+                $result = $this->Users_model->save($this->otpsTable, $OTPArray);
+
+                $SMS_Message = "$OTP";
+                $this->utility->sendSMS($MOBILE_NO, $SMS_Message);
+
                 $this->utility->sendForceJSON(["status" => true, "message" => "Registration successful", "data" => $responseArray]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Failed to register user"]);
@@ -474,6 +486,67 @@ class Users extends REST_Controller
                 $this->utility->sendForceJSON(["status" => true, "message" => "Password changed", "data" => $responseArray]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Failed to change the password"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_35 || Validate OTP
+     */
+    public function validateOTP_post()
+    {
+        try {
+            $MOBILE_NO = trim($this->inputData["MOBILE_NO"]);
+            $OTP = trim($this->inputData["OTP"]);
+
+            if (empty($MOBILE_NO) || empty($OTP)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            if (!is_int($OTP)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Invalid OTP Format"]);
+            }
+
+            $whereArray = array('MOBILE_NO' => $MOBILE_NO);
+            $temp = $this->Users_model->check($this->usersTable, $whereArray);
+            if ($temp->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
+            }
+
+            $whereArray = array("MOBILE_NO" => $MOBILE_NO, "STATUS" => 0);
+            $this->db->select("OTP,ID");
+            $this->db->from($this->otpsTable);
+            $this->db->where($whereArray);
+            $this->db->order_by("CREATED_DATETIME", "DESC");
+            $this->db->limit(1);
+            $temp = $this->db->get();
+            if ($temp->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Invalid OTP Request"]);
+            } else {
+                $STORED_OTP = $temp->row_array()["OTP"];
+                $ID = $temp->row_array()["ID"];
+                if ($STORED_OTP == $OTP) {
+                    $updateArray = array(
+                        'STATUS' => 1,
+                        'UPDATE_DATETIME' => date('Y-m-d H:i:s')
+                    );
+                    $result1 = $this->Users_model->update($this->otpsTable, array('ID' => $ID), $updateArray);
+
+                    $updateArray = array(
+                        'VERIFIED' => 'YES',
+                        'UPDATE_DATETIME' => date('Y-m-d H:i:s')
+                    );
+                    $result = $this->Users_model->update($this->usersTable, array('MOBILE_NO' => $MOBILE_NO), $updateArray);
+                    if ($result && $result1) {
+                        $this->utility->sendForceJSON(["status" => true, "message" => "OTP Verified"]);
+                    } else {
+                        $this->utility->sendForceJSON(["status" => false, "message" => "Failed to verify OTP"]);
+                    }
+                } else {
+                    $this->utility->sendForceJSON(["status" => false, "message" => "Invalid OTP(mismatch)"]);
+                }
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
