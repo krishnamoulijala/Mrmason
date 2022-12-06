@@ -121,6 +121,7 @@ class Utility
          * SINGLE MESSAGE : https://api.textlocal.in/send?apikey=XxXXX&message=XXXXXX&sender=XXXXXXX&numbers=91XXXXXX
          */
         if (!empty($mobile_number) && is_numeric($mobile_number) && !empty($message)) {
+            $mobile_number = substr($mobile_number, -10);
             $data = "apikey=bpzNEtJGgKE-k8XO8wzS41OuCWD3EeJ5wx8LNL5wEf&message=$message&sender=MRMASN&numbers=91$mobile_number";
             $ch = curl_init("https://api.textlocal.in/send?");
             curl_setopt($ch, CURLOPT_POST, 1);

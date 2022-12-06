@@ -68,7 +68,7 @@ class Users extends REST_Controller
                     $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid mobile number"]);
                 }
             }
-
+            $MOBILE_NO = substr($MOBILE_NO, -10);
             if (!empty($EMAIL_ID)) {
 
                 if (!$this->utility->validEmail($EMAIL_ID)) {
@@ -159,7 +159,7 @@ class Users extends REST_Controller
                     $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid mobile number"]);
                 }
             }
-
+            $MOBILE_NO = substr($MOBILE_NO, -10);
             if (!empty($EMAIL_ID)) {
 
                 if (!$this->utility->validEmail($EMAIL_ID)) {
