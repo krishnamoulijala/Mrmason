@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b1c31dff-cdc5-4545-bd64-39f13b39f3a0" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Users.php" afterDir="false" />
-    </list>
+    <list default="true" id="b1c31dff-cdc5-4545-bd64-39f13b39f3a0" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +17,8 @@
       <file leaf-file-name="Users.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/controllers/Users.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="564">
-              <caret line="554" column="1" selection-start-line="554" selection-start-column="1" selection-end-line="554" selection-end-column="1" />
+            <state relative-caret-position="2023">
+              <caret line="119" column="16" selection-start-line="119" selection-start-column="16" selection-end-line="119" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -225,7 +222,7 @@
       <workItem from="1670221533996" duration="775000" />
       <workItem from="1670322185842" duration="3625000" />
       <workItem from="1670395761914" duration="777000" />
-      <workItem from="1670562276610" duration="795000" />
+      <workItem from="1670562276610" duration="1395000" />
     </task>
     <task id="LOCAL-00001" summary="Address added into the getFilteredServicePersons API">
       <created>1664209440500</created>
@@ -367,11 +364,18 @@
       <option name="project" value="LOCAL" />
       <updated>1670325820484</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="OTP Template integrated">
+      <created>1670563285748</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1670563285748</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80206000" />
+    <option name="totallyTimeSpent" value="80806000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="830" extended-state="6" />
@@ -441,7 +445,8 @@
     <MESSAGE value="In API_24 only active records fetching logic added and Filter optional options BRAND, SIZE added" />
     <MESSAGE value="New API for OTP validating and in register API otp triggering code added" />
     <MESSAGE value="Considering last 10 digits in mobile number" />
-    <option name="LAST_COMMIT_MESSAGE" value="Considering last 10 digits in mobile number" />
+    <MESSAGE value="OTP Template integrated" />
+    <option name="LAST_COMMIT_MESSAGE" value="OTP Template integrated" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -703,8 +708,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Users.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="564">
-          <caret line="554" column="1" selection-start-line="554" selection-start-column="1" selection-end-line="554" selection-end-column="1" />
+        <state relative-caret-position="2023">
+          <caret line="119" column="16" selection-start-line="119" selection-start-column="16" selection-end-line="119" selection-end-column="16" />
         </state>
       </provider>
     </entry>
