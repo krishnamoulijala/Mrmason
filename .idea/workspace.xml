@@ -4,7 +4,6 @@
     <list default="true" id="b1c31dff-cdc5-4545-bd64-39f13b39f3a0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Users.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/libraries/Utility.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libraries/Utility.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,8 +20,8 @@
       <file leaf-file-name="Users.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/controllers/Users.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="541" column="43" selection-start-line="541" selection-start-column="43" selection-end-line="541" selection-end-column="43" />
+            <state relative-caret-position="564">
+              <caret line="554" column="1" selection-start-line="554" selection-start-column="1" selection-end-line="554" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -31,7 +30,7 @@
         <entry file="file://$PROJECT_DIR$/application/models/Users_model.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="374">
-              <caret line="22" column="32" lean-forward="true" selection-start-line="19" selection-start-column="8" selection-end-line="22" selection-end-column="32" />
+              <caret line="22" column="32" selection-start-line="19" selection-start-column="8" selection-end-line="22" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -39,7 +38,7 @@
       <file leaf-file-name="Services.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/Services.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
+            <state relative-caret-position="3706">
               <caret line="281" column="53" selection-start-line="281" selection-start-column="53" selection-end-line="281" selection-end-column="53" />
               <folding>
                 <element signature="n#insertName_post#0;n#Services#0;n#!!top" />
@@ -70,8 +69,8 @@
       <file leaf-file-name="Utility.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/libraries/Utility.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="115" column="27" selection-start-line="115" selection-start-column="20" selection-end-line="115" selection-end-column="27" />
+            <state relative-caret-position="351">
+              <caret line="123" column="12" selection-start-line="123" selection-start-column="12" selection-end-line="123" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -224,7 +223,9 @@
       <workItem from="1669351234820" duration="8000" />
       <workItem from="1670160595706" duration="1500000" />
       <workItem from="1670221533996" duration="775000" />
-      <workItem from="1670322185842" duration="2516000" />
+      <workItem from="1670322185842" duration="3625000" />
+      <workItem from="1670395761914" duration="777000" />
+      <workItem from="1670562276610" duration="795000" />
     </task>
     <task id="LOCAL-00001" summary="Address added into the getFilteredServicePersons API">
       <created>1664209440500</created>
@@ -352,11 +353,25 @@
       <option name="project" value="LOCAL" />
       <updated>1670221951312</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="New API for OTP validating and in register API otp triggering code added">
+      <created>1670324743753</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1670324743753</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Considering last 10 digits in mobile number">
+      <created>1670325820484</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1670325820484</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77525000" />
+    <option name="totallyTimeSpent" value="80206000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="830" extended-state="6" />
@@ -366,17 +381,16 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.3299712" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="File Transfer" order="7" weight="0.3299712" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3299712" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3299712" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3299712" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3299712" />
       <window_info active="true" anchor="right" id="Remote Host" order="3" visible="true" weight="0.17651007" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.1738255" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3299712" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24966443" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -384,6 +398,7 @@
       <window_info anchor="bottom" id="Command Line Tools Console" order="8" weight="0.3299712" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3299712" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -424,7 +439,9 @@
     <MESSAGE value="APIs Modifications : &#10;&#10;-&gt; Modified API_25 (Merged both SIZE and BRAND insert)&#10;-&gt; API_27 deleted" />
     <MESSAGE value="User type added in API_31 for filtering the user data" />
     <MESSAGE value="In API_24 only active records fetching logic added and Filter optional options BRAND, SIZE added" />
-    <option name="LAST_COMMIT_MESSAGE" value="In API_24 only active records fetching logic added and Filter optional options BRAND, SIZE added" />
+    <MESSAGE value="New API for OTP validating and in register API otp triggering code added" />
+    <MESSAGE value="Considering last 10 digits in mobile number" />
+    <option name="LAST_COMMIT_MESSAGE" value="Considering last 10 digits in mobile number" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -661,7 +678,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Services.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
+        <state relative-caret-position="3706">
           <caret line="281" column="53" selection-start-line="281" selection-start-column="53" selection-end-line="281" selection-end-column="53" />
           <folding>
             <element signature="n#insertName_post#0;n#Services#0;n#!!top" />
@@ -670,24 +687,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/Utility.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="115" column="27" selection-start-line="115" selection-start-column="20" selection-end-line="115" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/models/Users_model.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
-          <caret line="22" column="32" lean-forward="true" selection-start-line="19" selection-start-column="8" selection-end-line="22" selection-end-column="32" />
+          <caret line="22" column="32" selection-start-line="19" selection-start-column="8" selection-end-line="22" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/libraries/Utility.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="123" column="12" selection-start-line="123" selection-start-column="12" selection-end-line="123" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Users.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="541" column="43" selection-start-line="541" selection-start-column="43" selection-end-line="541" selection-end-column="43" />
+        <state relative-caret-position="564">
+          <caret line="554" column="1" selection-start-line="554" selection-start-column="1" selection-end-line="554" selection-end-column="1" />
         </state>
       </provider>
     </entry>

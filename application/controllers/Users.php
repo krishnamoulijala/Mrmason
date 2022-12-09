@@ -117,9 +117,9 @@ class Users extends REST_Controller
                     'MOBILE_NO' => $MOBILE_NO,
                     'OTP' => $OTP
                 );
-                $result = $this->Users_model->save($this->otpsTable, $OTPArray);
+                $this->Users_model->save($this->otpsTable, $OTPArray);
 
-                $SMS_Message = "$OTP";
+                $SMS_Message = "Thanks for registering with us. Your OTP to verify your mobile number is $OTP - www.mistermason.in";
                 $this->utility->sendSMS($MOBILE_NO, $SMS_Message);
 
                 $this->utility->sendForceJSON(["status" => true, "message" => "Registration successful", "data" => $responseArray]);
