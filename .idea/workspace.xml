@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b1c31dff-cdc5-4545-bd64-39f13b39f3a0" name="Default" comment="OTP Template integrated">
-      <change afterPath="$PROJECT_DIR$/application/controllers/Orders.php" afterDir="false" />
+    <list default="true" id="b1c31dff-cdc5-4545-bd64-39f13b39f3a0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,72 +16,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Users.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/controllers/Users.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="33" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Users_model.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/models/Users_model.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="32" lean-forward="true" selection-start-line="19" selection-start-column="8" selection-end-line="22" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Services.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/controllers/Services.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3383">
-              <caret line="262" column="20" selection-start-line="262" selection-start-column="20" selection-end-line="262" selection-end-column="20" />
-              <folding>
-                <element signature="n#insertName_post#0;n#Services#0;n#!!top" />
-                <element signature="n#updateName_post#0;n#Services#0;n#!!top" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Staff.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/controllers/Staff.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="34" lean-forward="true" selection-start-line="8" selection-end-line="8" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Admin.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/Admin.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4216">
-              <caret line="248" column="21" selection-start-line="248" selection-start-column="21" selection-end-line="248" selection-end-column="21" />
+            <state relative-caret-position="3808">
+              <caret line="224" column="4" selection-start-line="224" selection-start-column="4" selection-end-line="224" selection-end-column="4" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Utility.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/libraries/Utility.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="123" column="12" selection-start-line="123" selection-start-column="12" selection-end-line="123" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Orders.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Orders.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/Orders.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="496">
-              <caret line="132" column="32" selection-start-line="132" selection-start-column="20" selection-end-line="132" selection-end-column="32" />
-              <folding>
-                <element signature="n#changeOrderStatus_post#1;n#Orders#0;n#!!top" />
-              </folding>
+            <state relative-caret-position="421">
+              <caret line="114" column="35" selection-start-line="114" selection-start-column="35" selection-end-line="114" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="database.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/config/database.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="111">
+              <caret line="79" column="25" selection-start-line="76" selection-end-line="79" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -91,10 +47,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>utility</find>
-      <find>generate_otp</find>
-      <find>email</find>
-      <find>getCurrentIpAddress</find>
       <find>generate_uid</find>
       <find>generateKey</find>
       <find>getGUID</find>
@@ -121,6 +73,10 @@
       <find>I_PRICE</find>
       <find>* #A</find>
       <find>* #</find>
+      <find>changeStatus</find>
+      <find>materials</find>
+      <find>material</find>
+      <find>serviceTypes</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -160,7 +116,7 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
+    <option name="x" value="950" />
     <option name="width" value="980" />
     <option name="height" value="1030" />
   </component>
@@ -170,7 +126,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -193,6 +148,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -264,7 +220,11 @@
       <workItem from="1670395761914" duration="777000" />
       <workItem from="1670562276610" duration="1697000" />
       <workItem from="1671547329043" duration="1862000" />
-      <workItem from="1671684975333" duration="8760000" />
+      <workItem from="1671684975333" duration="8986000" />
+      <workItem from="1671703233447" duration="3753000" />
+      <workItem from="1672070716551" duration="181000" />
+      <workItem from="1672231906701" duration="732000" />
+      <workItem from="1672403641773" duration="112000" />
     </task>
     <task id="LOCAL-00001" summary="Address added into the getFilteredServicePersons API">
       <created>1664209440500</created>
@@ -413,11 +373,18 @@
       <option name="project" value="LOCAL" />
       <updated>1670563285748</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Order 3 APIs completed.">
+      <created>1671702133981</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1671702133981</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91730000" />
+    <option name="totallyTimeSpent" value="96734000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="830" extended-state="6" />
@@ -429,11 +396,10 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3299712" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3299712" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3299712" />
-      <window_info anchor="right" id="Remote Host" order="3" visible="true" weight="0.17651007" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17583893" />
+      <window_info anchor="right" id="Remote Host" order="3" visible="true" weight="0.17986578" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14697987" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3299712" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24966443" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -444,7 +410,8 @@
       <window_info anchor="bottom" id="Command Line Tools Console" order="8" weight="0.3299712" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="File Transfer" order="7" weight="0.3299712" />
+      <window_info anchor="bottom" id="File Transfer" order="7" visible="true" weight="0.3299712" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3299712" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -488,7 +455,8 @@
     <MESSAGE value="New API for OTP validating and in register API otp triggering code added" />
     <MESSAGE value="Considering last 10 digits in mobile number" />
     <MESSAGE value="OTP Template integrated" />
-    <option name="LAST_COMMIT_MESSAGE" value="OTP Template integrated" />
+    <MESSAGE value="Order 3 APIs completed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Order 3 APIs completed." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -695,28 +663,10 @@
     <entry file="file://$PROJECT_DIR$/.idea/webServers.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/config/database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="79" column="25" selection-start-line="76" selection-end-line="79" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4216">
-          <caret line="248" column="21" selection-start-line="248" selection-start-column="21" selection-end-line="248" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Services.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3383">
           <caret line="262" column="20" selection-start-line="262" selection-start-column="20" selection-end-line="262" selection-end-column="20" />
-          <folding>
-            <element signature="n#insertName_post#0;n#Services#0;n#!!top" />
-            <element signature="n#updateName_post#0;n#Services#0;n#!!top" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -748,13 +698,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3808">
+          <caret line="224" column="4" selection-start-line="224" selection-start-column="4" selection-end-line="224" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Orders.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="132" column="32" selection-start-line="132" selection-start-column="20" selection-end-line="132" selection-end-column="32" />
-          <folding>
-            <element signature="n#changeOrderStatus_post#1;n#Orders#0;n#!!top" />
-          </folding>
+        <state relative-caret-position="421">
+          <caret line="114" column="35" selection-start-line="114" selection-start-column="35" selection-end-line="114" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/config/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="79" column="25" selection-start-line="76" selection-end-line="79" selection-end-column="25" />
         </state>
       </provider>
     </entry>

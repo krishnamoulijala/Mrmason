@@ -38,8 +38,10 @@ class Orders extends REST_Controller
     {
         try {
             $EMAIL_ID = strtolower(trim($this->inputData["EMAIL_ID"]));
+            $RET_EMAIL_ID = strtolower(trim($this->inputData["RET_EMAIL_ID"]));
             $S_NAME = trim($this->inputData["S_NAME"]);
             $B_NAME = trim($this->inputData["B_NAME"]);
+            $BRAND_NAME = trim($this->inputData["BRAND_NAME"]);
             $SIZE = trim($this->inputData["SIZE"]);
             $N_ITEMS = trim($this->inputData["N_ITEMS"]);
             $SIZE_QNTY = trim($this->inputData["SIZE_QNTY"]);
@@ -48,14 +50,16 @@ class Orders extends REST_Controller
             $T_PRICE = trim($this->inputData["T_PRICE"]);
             $STATUS = trim($this->inputData["STATUS"]);
 
-            if (empty($EMAIL_ID) || empty($STATUS) || empty($S_NAME) || empty($B_NAME) || empty($SIZE) || empty($N_ITEMS) || empty($I_PRICE) || empty($T_PRICE)) {
+            if (empty($EMAIL_ID) || empty($RET_EMAIL_ID) || empty($STATUS) || empty($S_NAME) || empty($B_NAME) || empty($SIZE) || empty($N_ITEMS) || empty($I_PRICE) || empty($T_PRICE)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
             $saveArray = array(
                 'EMAIL_ID' => $EMAIL_ID,
+                'RET_EMAIL_ID' => $RET_EMAIL_ID,
                 'S_NAME' => $S_NAME,
                 'B_NAME' => $B_NAME,
+                'BRAND_NAME' => $BRAND_NAME,
                 'SIZE' => $SIZE,
                 'N_ITEMS' => $N_ITEMS,
                 'SIZE_QNTY' => $SIZE_QNTY,
