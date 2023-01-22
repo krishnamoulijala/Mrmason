@@ -9,6 +9,8 @@ class Admin extends REST_Controller
     private $sizesTable = "sizes";
     private $brandsTable = "brands";
     private $materialTable = "materials";
+    private $heightTable = "height";
+    private $bTypesTable = "btypes";
     private $inputData = "";
 
     /**
@@ -171,28 +173,123 @@ class Admin extends REST_Controller
     }
 
     /**
-     * #API_33 || Delete Material
+     * #API_39 || Add Height
      */
-    public function deleteMaterial_post()
+    public function insertHeight_post()
     {
         try {
-            $MATERIAL = strtolower(trim($this->inputData["MATERIAL"]));
+            $HEIGHT = strtolower(trim($this->inputData["HEIGHT"]));
 
-            if (empty($MATERIAL)) {
+            if (empty($HEIGHT)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            $whereString = "LOWER(MATERIAL)='$MATERIAL'";
-            $tempResult = $this->Users_model->check($this->materialTable, $whereString);
-            if ($tempResult->num_rows() == 0) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Brand not found"]);
+            $whereString = "LOWER(HEIGHT)='$HEIGHT'";
+            $tempResult = $this->Users_model->check($this->heightTable, $whereString);
+            if ($tempResult->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Brand already exists"]);
             }
 
-            $result = $this->Users_model->delete($this->materialTable, $whereString);
+            $saveArray = array(
+                'HEIGHT' => strtoupper($HEIGHT),
+                'CREATED' => date('Y-m-d H:i:s')
+            );
+            $result = $this->Users_model->save($this->heightTable, $saveArray);
             if ($result) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Brand deleted"]);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Height added"]);
             } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete brand"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add height"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_42 || Add Business Type
+     */
+    public function insertBusinessType_post()
+    {
+        try {
+            $BTYPE = strtolower(trim($this->inputData["BTYPE"]));
+
+            if (empty($BTYPE)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(BTYPE)='$BTYPE'";
+            $tempResult = $this->Users_model->check($this->bTypesTable, $whereString);
+            if ($tempResult->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Business Type already exists"]);
+            }
+
+            $saveArray = array(
+                'BTYPE' => strtoupper($BTYPE),
+                'CREATED' => date('Y-m-d H:i:s')
+            );
+            $result = $this->Users_model->save($this->bTypesTable, $saveArray);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Business Type added"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add business type"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_40 || Delete Height
+     */
+    public function deleteHeight_post()
+    {
+        try {
+            $HEIGHT = strtolower(trim($this->inputData["HEIGHT"]));
+
+            if (empty($HEIGHT)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(HEIGHT)='$HEIGHT'";
+            $tempResult = $this->Users_model->check($this->heightTable, $whereString);
+            if ($tempResult->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Height not found"]);
+            }
+
+            $result = $this->Users_model->delete($this->heightTable, $whereString);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Height deleted"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete height"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_43 || Delete Business Type
+     */
+    public function deleteBusinessType_post()
+    {
+        try {
+            $BTYPE = strtolower(trim($this->inputData["BTYPE"]));
+
+            if (empty($BTYPE)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(BTYPE)='$BTYPE'";
+            $tempResult = $this->Users_model->check($this->bTypesTable, $whereString);
+            if ($tempResult->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Business Type not found"]);
+            }
+
+            $result = $this->Users_model->delete($this->bTypesTable, $whereString);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Business Type deleted"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete business type"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -259,6 +356,50 @@ class Admin extends REST_Controller
                 $this->utility->sendForceJSON(["status" => true, "message" => "Materials list", "data" => $result->result_array()]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "No materials found"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_41 || Get Heights
+     */
+    public function getHeights_get()
+    {
+        try {
+            $this->db->select("HEIGHT");
+            $this->db->from($this->heightTable);
+            $this->db->where("STATUS", "ACTIVE");
+            $this->db->order_by("HEIGHT", "ASC");
+            $this->db->group_by("HEIGHT");
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Heights list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No heights found"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_44 || Get Business Types
+     */
+    public function getBusinessTypes_get()
+    {
+        try {
+            $this->db->select("BTYPE");
+            $this->db->from($this->bTypesTable);
+            $this->db->where("STATUS", "ACTIVE");
+            $this->db->order_by("BTYPE", "ASC");
+            $this->db->group_by("BTYPE");
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Business Types list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No business types found"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);

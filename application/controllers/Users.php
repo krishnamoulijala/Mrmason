@@ -505,10 +505,6 @@ class Users extends REST_Controller
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            if (!is_int($OTP)) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Invalid OTP Format"]);
-            }
-
             $whereArray = array('MOBILE_NO' => $MOBILE_NO);
             $temp = $this->Users_model->check($this->usersTable, $whereArray);
             if ($temp->num_rows() == 0) {

@@ -164,7 +164,7 @@ class Services extends REST_Controller
             $SERVICE_TYPE = strtolower(trim($this->inputData["SERVICE_TYPE"]));
             $BUSINESS_NAME = trim($this->inputData["BUSINESS_NAME"]);
             $BUSINESS_TYPE = trim($this->inputData["BUSINESS_TYPE"]);
-            $BRAND_NAME = trim($this->inputData["BRAND_NAME"]);
+            $BRAND_NAME = strtolower(trim($this->inputData["BRAND_NAME"]));
             $DOOR_DELIVERY = trim($this->inputData["DOOR_DELIVERY"]);
             $DESCRIPTION = trim($this->inputData["DESCRIPTION"]);
             $WEIGHT = trim($this->inputData["WEIGHT"]);
@@ -176,7 +176,7 @@ class Services extends REST_Controller
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            $whereString = "LOWER(SERVICE_TYPE)='$SERVICE_TYPE' AND EMAIL_ID='$EMAIL_ID'";
+            $whereString = "LOWER(BRAND_NAME)='$BRAND_NAME' AND LOWER(SERVICE_TYPE)='$SERVICE_TYPE' AND EMAIL_ID='$EMAIL_ID'";
             $tempResult = $this->Users_model->check($this->serviceTypeTable, $whereString);
             if ($tempResult->num_rows() > 0) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Service type already exists"]);
@@ -187,7 +187,7 @@ class Services extends REST_Controller
                 'BUSINESS_NAME' => $BUSINESS_NAME,
                 'EMAIL_ID' => $EMAIL_ID,
                 'BUSINESS_TYPE' => $BUSINESS_TYPE,
-                'BRAND_NAME' => $BRAND_NAME,
+                'BRAND_NAME' => strtoupper($BRAND_NAME),
                 'DOOR_DELIVERY' => $DOOR_DELIVERY,
                 'DESCRIPTION' => $DESCRIPTION,
                 'WEIGHT' => $WEIGHT,
