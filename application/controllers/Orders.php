@@ -37,39 +37,61 @@ class Orders extends REST_Controller
     public function insert_post()
     {
         try {
-            $EMAIL_ID = strtolower(trim($this->inputData["EMAIL_ID"]));
-            $RET_EMAIL_ID = strtolower(trim($this->inputData["RET_EMAIL_ID"]));
-            $S_NAME = trim($this->inputData["S_NAME"]);
-            $B_NAME = trim($this->inputData["B_NAME"]);
-            $BRAND_NAME = trim($this->inputData["BRAND_NAME"]);
-            $SIZE = trim($this->inputData["SIZE"]);
-            $N_ITEMS = trim($this->inputData["N_ITEMS"]);
-            $SIZE_QNTY = trim($this->inputData["SIZE_QNTY"]);
-            $QNTY = trim($this->inputData["QNTY"]);
-            $I_PRICE = trim($this->inputData["I_PRICE"]);
-            $T_PRICE = trim($this->inputData["T_PRICE"]);
-            $STATUS = trim($this->inputData["STATUS"]);
 
-            if (empty($EMAIL_ID) || empty($RET_EMAIL_ID) || empty($STATUS) || empty($S_NAME) || empty($B_NAME) || empty($SIZE) || empty($N_ITEMS) || empty($I_PRICE) || empty($T_PRICE)) {
+            $DATA = $this->inputData["DATA"];
+            if (empty($DATA)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
+            if (!is_array($DATA)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Invalid DATA input, must be an array"]);
+            }
+            $result = false;
+            foreach ($DATA as $eachOne) {
+                $EMAIL_ID = strtolower(trim($eachOne["EMAIL_ID"]));
+                $RET_EMAIL_ID = strtolower(trim($eachOne["RET_EMAIL_ID"]));
+                $S_NAME = trim($eachOne["S_NAME"]);
+                $B_NAME = trim($eachOne["B_NAME"]);
+                $BRAND_NAME = trim($eachOne["BRAND_NAME"]);
+                $SIZE = trim($eachOne["SIZE"]);
+                $N_ITEMS = trim($eachOne["N_ITEMS"]);
+                $SIZE_QNTY = trim($eachOne["SIZE_QNTY"]);
+                $QNTY = trim($eachOne["QNTY"]);
+                $I_PRICE = trim($eachOne["I_PRICE"]);
+                $T_PRICE = trim($eachOne["T_PRICE"]);
+                $STATUS = trim($eachOne["STATUS"]);
+                $DELIVERY_TYPE = trim($eachOne["DELIVERY_TYPE"]);
 
-            $saveArray = array(
-                'EMAIL_ID' => $EMAIL_ID,
-                'RET_EMAIL_ID' => $RET_EMAIL_ID,
-                'S_NAME' => $S_NAME,
-                'B_NAME' => $B_NAME,
-                'BRAND_NAME' => $BRAND_NAME,
-                'SIZE' => $SIZE,
-                'N_ITEMS' => $N_ITEMS,
-                'SIZE_QNTY' => $SIZE_QNTY,
-                'QNTY' => $QNTY,
-                'I_PRICE' => $I_PRICE,
-                'T_PRICE' => $T_PRICE,
-                'STATUS' => $STATUS,
-                'CREATED_DATETIME' => date('Y-m-d H:i:s')
-            );
-            $result = $this->Users_model->save($this->ordersTable, $saveArray);
+                /*if (empty($EMAIL_ID) || empty($RET_EMAIL_ID) || empty($STATUS) || empty($S_NAME) || empty($B_NAME) || empty($SIZE) || empty($N_ITEMS) || empty($I_PRICE) || empty($T_PRICE)) {
+                    $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+                }*/
+
+                reGenerate:
+                $ORDER_ID = "ORD" . $this->utility->generateUID(10);
+                $whereArray = array('ORD_ID' => $ORDER_ID);
+                $temp = $this->Users_model->check($this->ordersTable, $whereArray);
+                if ($temp->num_rows() > 0) {
+                    goto reGenerate;
+                }
+
+                $saveArray = array(
+                    "ORD_ID" => $ORDER_ID,
+                    "EMAIL_ID" => $EMAIL_ID,
+                    "RET_EMAIL_ID" => $RET_EMAIL_ID,
+                    "S_NAME" => $S_NAME,
+                    "B_NAME" => $B_NAME,
+                    "BRAND_NAME" => $BRAND_NAME,
+                    "SIZE" => $SIZE,
+                    "N_ITEMS" => $N_ITEMS,
+                    "SIZE_QNTY" => $SIZE_QNTY,
+                    "QNTY" => $QNTY,
+                    "I_PRICE" => $I_PRICE,
+                    "T_PRICE" => $T_PRICE,
+                    "STATUS" => $STATUS,
+                    "DELIVERY_TYPE" => $DELIVERY_TYPE,
+                    "CREATED_DATETIME" => date("Y-m-d H:i:s")
+                );
+                $result = $this->Users_model->save($this->ordersTable, $saveArray);
+            }
             if ($result) {
                 $this->utility->sendForceJSON(["status" => true, "message" => "Order placed successfully"]);
             } else {
