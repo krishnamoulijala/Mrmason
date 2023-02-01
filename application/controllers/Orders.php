@@ -32,7 +32,7 @@ class Orders extends REST_Controller
     }
 
     /**
-     * #API_36 || Order Insert || Last Modification : 2022-12-22
+     * #API_36 || Order Insert || Last Modification : 2023-01-31
      */
     public function insert_post()
     {
@@ -103,20 +103,27 @@ class Orders extends REST_Controller
     }
 
     /**
-     * #API_37 || Order Status Change || Last Modification : 2022-12-22
+     * #API_37 || Order Details || Last Modification : 2023-02-01
      */
     public function getDetails_get()
     {
         try {
-            $EMAIL_ID = strtolower(trim($this->inputData["EMAIL_ID"]));
+            $EMAIL_ID = strtolower(trim($this->get("EMAIL_ID")));
+            $COMING_FROM = trim($this->get("COMING_FROM"));
+            $DATE = strtolower(trim($this->get("DATE")));
 
-            if (empty($EMAIL_ID)) {
+            if (empty($EMAIL_ID) || empty($COMING_FROM)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            if (!in_array($COMING_FROM, array("DEALER", "CONSUMER"))) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Invalid input in coming from"]);
             }
 
             $this->db->select(trim("
             ord.ORD_ID,
             ord.B_NAME,
+            ord.BRAND_NAME,
             ord.S_NAME,
             ord.SIZE,
             ord.N_ITEMS,
@@ -124,6 +131,7 @@ class Orders extends REST_Controller
             ord.QNTY,
             ord.I_PRICE,
             ord.T_PRICE,
+            ord.DELIVERY_TYPE,
             ord.STATUS,
             ord.CREATED_DATETIME,
             usr.NAME,
@@ -134,9 +142,17 @@ class Orders extends REST_Controller
             usr.ADDRESS
             "));
             $this->db->from($this->ordersTable . " ord");
-            $this->db->where("ord.EMAIL_ID", $EMAIL_ID);
-            $this->db->join($this->userTable . " usr", "ord.EMAIL_ID=usr.EMAIL_ID", "left");
-            $this->db->group_by("usr.EMAIL_ID");
+            if ($COMING_FROM == "DEALER") {
+                $this->db->where("ord.RET_EMAIL_ID", $EMAIL_ID);
+                $this->db->join($this->userTable . " usr", "ord.EMAIL_ID=usr.EMAIL_ID", "left");
+            } else {
+                $this->db->where("ord.EMAIL_ID", $EMAIL_ID);
+                $this->db->join($this->userTable . " usr", "ord.RET_EMAIL_ID =usr.EMAIL_ID", "left");
+            }
+            if (!empty($DATE)) {
+                $this->db->where("DATE(ord.CREATED_DATETIME)", $DATE);
+            }
+            $this->db->group_by("ord.ORD_ID");
             $temp = $this->db->get();
             if ($temp->num_rows() == 0) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Orders not found"]);
