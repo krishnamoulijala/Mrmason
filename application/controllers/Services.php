@@ -69,7 +69,7 @@ class Services extends REST_Controller
             $this->db->where("STATUS", "ACTIVE");
             $this->db->where("EMAIL_ID", "$EMAIL_ID");
             $this->db->order_by("SERVICE_TYPE", "ASC");
-            $this->db->group_by('SERVICE_TYPE');
+            /*$this->db->group_by('SERVICE_TYPE');*/
             $result = $this->db->get();
             if ($result->num_rows() > 0) {
                 $this->utility->sendForceJSON(["status" => true, "message" => "Active service types list", "data" => $result->result_array()]);

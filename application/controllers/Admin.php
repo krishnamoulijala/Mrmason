@@ -9,7 +9,7 @@ class Admin extends REST_Controller
     private $sizesTable = "sizes";
     private $brandsTable = "brands";
     private $materialTable = "materials";
-    private $heightTable = "height";
+    private $heightTable = "heights";
     private $bTypesTable = "btypes";
     private $inputData = "";
 

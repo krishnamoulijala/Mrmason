@@ -8,6 +8,7 @@ class Orders extends REST_Controller
 {
     private $ordersTable = "orders";
     private $userTable = "users";
+    private $serviceTypeTable = "serviceTypes";
     private $inputData = "";
 
     /**
@@ -110,7 +111,13 @@ class Orders extends REST_Controller
         try {
             $EMAIL_ID = strtolower(trim($this->get("EMAIL_ID")));
             $COMING_FROM = trim($this->get("COMING_FROM"));
-            $DATE = strtolower(trim($this->get("DATE")));
+            $DATE = trim($this->get("DATE"));
+            $STATUS = trim($this->get("STATUS"));
+            $B_NAME = trim($this->get("B_NAME"));
+            $BRAND_NAME = trim($this->get("BRAND_NAME"));
+            $S_NAME = trim($this->get("S_NAME"));
+            $B_TYPE = trim($this->get("B_TYPE"));
+            $CITY = trim($this->get("CITY"));
 
             if (empty($EMAIL_ID) || empty($COMING_FROM)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
@@ -143,15 +150,35 @@ class Orders extends REST_Controller
             "));
             $this->db->from($this->ordersTable . " ord");
             if ($COMING_FROM == "DEALER") {
-                $this->db->where("ord.RET_EMAIL_ID", $EMAIL_ID);
                 $this->db->join($this->userTable . " usr", "ord.EMAIL_ID=usr.EMAIL_ID", "left");
+                $this->db->where("ord.RET_EMAIL_ID", $EMAIL_ID);
             } else {
+                $this->db->join($this->userTable . " usr", "ord.RET_EMAIL_ID=usr.EMAIL_ID", "left");
                 $this->db->where("ord.EMAIL_ID", $EMAIL_ID);
-                $this->db->join($this->userTable . " usr", "ord.RET_EMAIL_ID =usr.EMAIL_ID", "left");
             }
             if (!empty($DATE)) {
                 $this->db->where("DATE(ord.CREATED_DATETIME)", $DATE);
             }
+            if (!empty($STATUS)) {
+                $this->db->where("LOWER(ord.STATUS)", strtolower($STATUS));
+            }
+            if (!empty($B_NAME)) {
+                $this->db->where("LOWER(ord.B_NAME)", strtolower($B_NAME));
+            }
+            if (!empty($CITY)) {
+                $this->db->where("LOWER(usr.CITY)", strtolower($CITY));
+            }
+            if (!empty($S_NAME)) {
+                $this->db->where("LOWER(ord.S_NAME)", strtolower($S_NAME));
+            }
+            if (!empty($BRAND_NAME)) {
+                $this->db->where("LOWER(ord.BRAND_NAME)", strtolower($BRAND_NAME));
+            }
+            if (!empty($B_TYPE)) {
+                $this->db->join($this->serviceTypeTable . " src", "ord.S_NAME=src.SERVICE_TYPE", "left");
+                $this->db->where("LOWER(src.BUSINESS_TYPE)", strtolower($B_TYPE));
+            }
+
             $this->db->group_by("ord.ORD_ID");
             $temp = $this->db->get();
             if ($temp->num_rows() == 0) {
