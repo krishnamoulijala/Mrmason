@@ -318,11 +318,15 @@ class Users extends REST_Controller
     {
         try {
             $USER_TYPE = strtolower(trim($this->get("USER_TYPE")));
+            $REGISTRATION_DATE = strtolower(trim($this->get("REGISTRATION_DATE")));
 
             $this->db->select("EMAIL_ID,NAME,BUSINESS_NAME,MOBILE_NO,USER_TYPE,ADDRESS,STATUS,REGISTRATION_DATETIME,PINCODE_NO,CITY");
             $this->db->from($this->usersTable);
             if (!empty($USER_TYPE)) {
                 $this->db->where("LOWER(USER_TYPE) LIKE '%$USER_TYPE%'");
+            }
+            if (!empty($REGISTRATION_DATE)) {
+                $this->db->where("REGISTRATION_DATETIME LIKE '%$REGISTRATION_DATE%'");
             }
             $this->db->order_by("NAME", "ASC");
             $result = $this->db->get();
