@@ -9,8 +9,8 @@ class Admin extends REST_Controller
     private $sizesTable = "sizes";
     private $brandsTable = "brands";
     private $materialTable = "materials";
-    private $heightTable = "heights";
-    private $bTypesTable = "btypes";
+    private $shapeTable = "shapes";
+    private $subCatTable = "subCats";
     private $inputData = "";
 
     /**
@@ -173,32 +173,32 @@ class Admin extends REST_Controller
     }
 
     /**
-     * #API_39 || Add Height
+     * #API_39 || Add Shape
      */
-    public function insertHeight_post()
+    public function insertShape_post()
     {
         try {
-            $HEIGHT = strtolower(trim($this->inputData["HEIGHT"]));
+            $SHAPE = strtolower(trim($this->inputData["SHAPE"]));
 
-            if (empty($HEIGHT)) {
+            if (empty($SHAPE)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            $whereString = "LOWER(HEIGHT)='$HEIGHT'";
-            $tempResult = $this->Users_model->check($this->heightTable, $whereString);
+            $whereString = "LOWER(SHAPE)='$SHAPE'";
+            $tempResult = $this->Users_model->check($this->shapeTable, $whereString);
             if ($tempResult->num_rows() > 0) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Brand already exists"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Shape already exists"]);
             }
 
             $saveArray = array(
-                'HEIGHT' => strtoupper($HEIGHT),
+                'SHAPE' => strtoupper($SHAPE),
                 'CREATED' => date('Y-m-d H:i:s')
             );
-            $result = $this->Users_model->save($this->heightTable, $saveArray);
+            $result = $this->Users_model->save($this->shapeTable, $saveArray);
             if ($result) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Height added"]);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Shape added"]);
             } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add height"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add shape"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -206,32 +206,32 @@ class Admin extends REST_Controller
     }
 
     /**
-     * #API_42 || Add Business Type
+     * #API_42 || Add Sub Category
      */
-    public function insertBusinessType_post()
+    public function insertSubCategory_post()
     {
         try {
-            $BTYPE = strtolower(trim($this->inputData["BTYPE"]));
+            $SUB_CATEGORY = strtolower(trim($this->inputData["SUB_CATEGORY"]));
 
-            if (empty($BTYPE)) {
+            if (empty($SUB_CATEGORY)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            $whereString = "LOWER(BTYPE)='$BTYPE'";
-            $tempResult = $this->Users_model->check($this->bTypesTable, $whereString);
+            $whereString = "LOWER(SUB_CATEGORY)='$SUB_CATEGORY'";
+            $tempResult = $this->Users_model->check($this->subCatTable, $whereString);
             if ($tempResult->num_rows() > 0) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Business Type already exists"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Sub category already exists"]);
             }
 
             $saveArray = array(
-                'BTYPE' => strtoupper($BTYPE),
+                'SUB_CATEGORY' => strtoupper($SUB_CATEGORY),
                 'CREATED' => date('Y-m-d H:i:s')
             );
-            $result = $this->Users_model->save($this->bTypesTable, $saveArray);
+            $result = $this->Users_model->save($this->subCatTable, $saveArray);
             if ($result) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Business Type added"]);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Sub category added"]);
             } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add business type"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add sub category"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -239,28 +239,28 @@ class Admin extends REST_Controller
     }
 
     /**
-     * #API_40 || Delete Height
+     * #API_40 || Delete Shape
      */
-    public function deleteHeight_post()
+    public function deleteShape_post()
     {
         try {
-            $HEIGHT = strtolower(trim($this->inputData["HEIGHT"]));
+            $SHAPE = strtolower(trim($this->inputData["SHAPE"]));
 
-            if (empty($HEIGHT)) {
+            if (empty($SHAPE)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            $whereString = "LOWER(HEIGHT)='$HEIGHT'";
-            $tempResult = $this->Users_model->check($this->heightTable, $whereString);
+            $whereString = "LOWER(SHAPE)='$SHAPE'";
+            $tempResult = $this->Users_model->check($this->shapeTable, $whereString);
             if ($tempResult->num_rows() == 0) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Height not found"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Shape not found"]);
             }
 
-            $result = $this->Users_model->delete($this->heightTable, $whereString);
+            $result = $this->Users_model->delete($this->shapeTable, $whereString);
             if ($result) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Height deleted"]);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Shape deleted"]);
             } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete height"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete shape"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -268,28 +268,28 @@ class Admin extends REST_Controller
     }
 
     /**
-     * #API_43 || Delete Business Type
+     * #API_43 || Delete Sub Category
      */
-    public function deleteBusinessType_post()
+    public function deleteSubCategory_post()
     {
         try {
-            $BTYPE = strtolower(trim($this->inputData["BTYPE"]));
+            $SUB_CATEGORY = strtolower(trim($this->inputData["SUB_CATEGORY"]));
 
-            if (empty($BTYPE)) {
+            if (empty($SUB_CATEGORY)) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            $whereString = "LOWER(BTYPE)='$BTYPE'";
-            $tempResult = $this->Users_model->check($this->bTypesTable, $whereString);
+            $whereString = "LOWER(SUB_CATEGORY)='$SUB_CATEGORY'";
+            $tempResult = $this->Users_model->check($this->subCatTable, $whereString);
             if ($tempResult->num_rows() == 0) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Business Type not found"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Sub Category not found"]);
             }
 
-            $result = $this->Users_model->delete($this->bTypesTable, $whereString);
+            $result = $this->Users_model->delete($this->subCatTable, $whereString);
             if ($result) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Business Type deleted"]);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Sub category deleted"]);
             } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete business type"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete sub category"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -363,21 +363,21 @@ class Admin extends REST_Controller
     }
 
     /**
-     * #API_41 || Get Heights
+     * #API_41 || Get Shapes
      */
-    public function getHeights_get()
+    public function getShapes_get()
     {
         try {
-            $this->db->select("HEIGHT");
-            $this->db->from($this->heightTable);
+            $this->db->select("SHAPE");
+            $this->db->from($this->shapeTable);
             $this->db->where("STATUS", "ACTIVE");
-            $this->db->order_by("HEIGHT", "ASC");
-            $this->db->group_by("HEIGHT");
+            $this->db->order_by("SHAPE", "ASC");
+            $this->db->group_by("SHAPE");
             $result = $this->db->get();
             if ($result->num_rows() > 0) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Heights list", "data" => $result->result_array()]);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Shapes list", "data" => $result->result_array()]);
             } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "No heights found"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "No shapes found"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
@@ -385,21 +385,21 @@ class Admin extends REST_Controller
     }
 
     /**
-     * #API_44 || Get Business Types
+     * #API_44 || Get Sub Categories
      */
-    public function getBusinessTypes_get()
+    public function getSubCategories_get()
     {
         try {
-            $this->db->select("BTYPE");
-            $this->db->from($this->bTypesTable);
+            $this->db->select("SUB_CATEGORY");
+            $this->db->from($this->subCatTable);
             $this->db->where("STATUS", "ACTIVE");
-            $this->db->order_by("BTYPE", "ASC");
-            $this->db->group_by("BTYPE");
+            $this->db->order_by("SUB_CATEGORY", "ASC");
+            $this->db->group_by("SUB_CATEGORY");
             $result = $this->db->get();
             if ($result->num_rows() > 0) {
-                $this->utility->sendForceJSON(["status" => true, "message" => "Business Types list", "data" => $result->result_array()]);
+                $this->utility->sendForceJSON(["status" => true, "message" => "Sub Categories list", "data" => $result->result_array()]);
             } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "No business types found"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "No sub categories found"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
