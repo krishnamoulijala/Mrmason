@@ -163,12 +163,12 @@ class Services extends REST_Controller
             $EMAIL_ID = trim($this->inputData["EMAIL_ID"]);
             $SERVICE_TYPE = strtolower(trim($this->inputData["SERVICE_TYPE"]));
             $BUSINESS_NAME = trim($this->inputData["BUSINESS_NAME"]);
-            $BUSINESS_TYPE = trim($this->inputData["BUSINESS_TYPE"]);
+            $STEEL_SUB_CATEGORY = trim($this->inputData["STEEL_SUB_CATEGORY"]);
             $BRAND_NAME = strtolower(trim($this->inputData["BRAND_NAME"]));
             $DOOR_DELIVERY = trim($this->inputData["DOOR_DELIVERY"]);
             $DESCRIPTION = trim($this->inputData["DESCRIPTION"]);
-            $WEIGHT = trim($this->inputData["WEIGHT"]);
-            $HEIGHT = trim($this->inputData["HEIGHT"]);
+            $STEEL_SIZE = trim($this->inputData["STEEL_SIZE"]);
+            $STEEL_SHAPE = trim($this->inputData["STEEL_SHAPE"]);
             $MRP = trim($this->inputData["MRP"]);
             $PRICE = trim($this->inputData["PRICE"]);
 
@@ -186,12 +186,12 @@ class Services extends REST_Controller
                 'SERVICE_TYPE' => strtoupper($SERVICE_TYPE),
                 'BUSINESS_NAME' => $BUSINESS_NAME,
                 'EMAIL_ID' => $EMAIL_ID,
-                'BUSINESS_TYPE' => $BUSINESS_TYPE,
+                'STEEL_SUB_CATEGORY' => $STEEL_SUB_CATEGORY,
                 'BRAND_NAME' => strtoupper($BRAND_NAME),
                 'DOOR_DELIVERY' => $DOOR_DELIVERY,
                 'DESCRIPTION' => $DESCRIPTION,
-                'WEIGHT' => $WEIGHT,
-                'HEIGHT' => $HEIGHT,
+                'STEEL_SIZE' => $STEEL_SIZE,
+                'STEEL_SHAPE' => $STEEL_SHAPE,
                 'MRP' => $MRP,
                 'PRICE' => $PRICE,
                 'CREATED' => date('Y-m-d H:i:s')
@@ -214,12 +214,12 @@ class Services extends REST_Controller
     {
         try {
             $BUSINESS_NAME = trim($this->inputData["BUSINESS_NAME"]);
-            $BUSINESS_TYPE = trim($this->inputData["BUSINESS_TYPE"]);
+            $STEEL_SUB_CATEGORY = trim($this->inputData["STEEL_SUB_CATEGORY"]);
             $BRAND_NAME = trim($this->inputData["BRAND_NAME"]);
             $DOOR_DELIVERY = trim($this->inputData["DOOR_DELIVERY"]);
             $DESCRIPTION = trim($this->inputData["DESCRIPTION"]);
-            $WEIGHT = trim($this->inputData["WEIGHT"]);
-            $HEIGHT = trim($this->inputData["HEIGHT"]);
+            $STEEL_SIZE = trim($this->inputData["STEEL_SIZE"]);
+            $STEEL_SHAPE = trim($this->inputData["STEEL_SHAPE"]);
             $MRP = trim($this->inputData["MRP"]);
             $PRICE = trim($this->inputData["PRICE"]);
             $ID = trim($this->inputData["ID"]);
@@ -236,12 +236,12 @@ class Services extends REST_Controller
 
             $updateArray = array(
                 'BUSINESS_NAME' => $BUSINESS_NAME,
-                'BUSINESS_TYPE' => $BUSINESS_TYPE,
+                'STEEL_SUB_CATEGORY' => $STEEL_SUB_CATEGORY,
                 'BRAND_NAME' => $BRAND_NAME,
                 'DOOR_DELIVERY' => $DOOR_DELIVERY,
                 'DESCRIPTION' => $DESCRIPTION,
-                'WEIGHT' => $WEIGHT,
-                'HEIGHT' => $HEIGHT,
+                'STEEL_SIZE' => $STEEL_SIZE,
+                'STEEL_SHAPE' => $STEEL_SHAPE,
                 'MRP' => $MRP,
                 'PRICE' => $PRICE,
                 'UPDATED' => date('Y-m-d H:i:s')
@@ -265,8 +265,8 @@ class Services extends REST_Controller
         try {
             $SERVICE_TYPE = strtolower(trim($this->get('SERVICE_TYPE')));
             $CITY = strtolower(trim($this->get('CITY')));
-            $BUSINESS_TYPE = strtolower(trim($this->get('BUSINESS_TYPE')));
-            $SIZE = strtolower(trim($this->get('SIZE')));
+            $STEEL_SUB_CATEGORY = strtolower(trim($this->get('STEEL_SUB_CATEGORY')));
+            $STEEL_SIZE = strtolower(trim($this->get('STEEL_SIZE')));
             $BRAND = strtolower(trim($this->get('BRAND')));
 
             if (empty($SERVICE_TYPE) || empty($CITY)) {
@@ -281,14 +281,14 @@ class Services extends REST_Controller
             if (!empty($CITY)) {
                 $this->db->where("LOWER(u.CITY) LIKE '%$CITY%'");
             }
-            if (!empty($BUSINESS_TYPE)) {
-                $this->db->where("LOWER(st.BUSINESS_TYPE) LIKE '%$BUSINESS_TYPE%'");
+            if (!empty($STEEL_SUB_CATEGORY)) {
+                $this->db->where("LOWER(st.STEEL_SUB_CATEGORY) LIKE '%$STEEL_SUB_CATEGORY%'");
             }
             if (!empty($BRAND)) {
                 $this->db->where("LOWER(st.BRAND_NAME) LIKE '%$BRAND%'");
             }
-            if (!empty($SIZE)) {
-                $this->db->where("LOWER(st.WEIGHT) LIKE '%$SIZE%'");
+            if (!empty($STEEL_SIZE)) {
+                $this->db->where("LOWER(st.STEEL_SIZE) LIKE '%$STEEL_SIZE%'");
             }
             $this->db->join('users u', 'st.EMAIL_ID=u.EMAIL_ID', 'left');
             $this->db->group_by('st.EMAIL_ID');
