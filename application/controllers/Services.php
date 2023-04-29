@@ -196,6 +196,20 @@ class Services extends REST_Controller
                 'PRICE' => $PRICE,
                 'CREATED' => date('Y-m-d H:i:s')
             );
+
+            if (array_key_exists('PERIMETER', $this->inputData)) {
+                $saveArray['PERIMETER'] = trim($this->inputData["PERIMETER"]);
+            }
+            if (array_key_exists('LENGTH', $this->inputData)) {
+                $saveArray['LENGTH'] = trim($this->inputData["LENGTH"]);
+            }
+            if (array_key_exists('THICKNESS', $this->inputData)) {
+                $saveArray['THICKNESS'] = trim($this->inputData["THICKNESS"]);
+            }
+            if (array_key_exists('WEIGHT', $this->inputData)) {
+                $saveArray['WEIGHT'] = trim($this->inputData["WEIGHT"]);
+            }
+
             $result = $this->Users_model->save($this->serviceTypeTable, $saveArray);
             if ($result) {
                 $this->utility->sendForceJSON(["status" => true, "message" => "Service type added"]);
@@ -246,6 +260,20 @@ class Services extends REST_Controller
                 'PRICE' => $PRICE,
                 'UPDATED' => date('Y-m-d H:i:s')
             );
+
+            if (array_key_exists('PERIMETER', $this->inputData)) {
+                $updateArray['PERIMETER'] = trim($this->inputData["PERIMETER"]);
+            }
+            if (array_key_exists('LENGTH', $this->inputData)) {
+                $updateArray['LENGTH'] = trim($this->inputData["LENGTH"]);
+            }
+            if (array_key_exists('THICKNESS', $this->inputData)) {
+                $updateArray['THICKNESS'] = trim($this->inputData["THICKNESS"]);
+            }
+            if (array_key_exists('WEIGHT', $this->inputData)) {
+                $updateArray['WEIGHT'] = trim($this->inputData["WEIGHT"]);
+            }
+
             $result = $this->Users_model->update($this->serviceTypeTable, $whereArray, $updateArray);
             if ($result) {
                 $this->utility->sendForceJSON(["status" => true, "message" => "Service type updated"]);
