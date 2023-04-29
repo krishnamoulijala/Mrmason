@@ -11,6 +11,10 @@ class Admin extends REST_Controller
     private $materialTable = "materials";
     private $shapeTable = "shapes";
     private $subCatTable = "subCats";
+    private $perimeterTable = "perimeters";
+    private $lengthTable = "lengths";
+    private $weightTable = "weights";
+    private $thicknessTable = "thickness";
     private $inputData = "";
 
     /**
@@ -400,6 +404,343 @@ class Admin extends REST_Controller
                 $this->utility->sendForceJSON(["status" => true, "message" => "Sub Categories list", "data" => $result->result_array()]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "No sub categories found"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /*-----------------------------New APIs for Perimeter, Length, Thickness, Weight----------------------------*/
+    /**
+     * #API_45 || Add Perimeter
+     */
+    public function insertPerimeter_post()
+    {
+        try {
+            $PERIMETER = strtolower(trim($this->inputData["PERIMETER"]));
+
+            if (empty($PERIMETER)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(PERIMETER)='$PERIMETER'";
+            $tempResult = $this->Users_model->check($this->perimeterTable, $whereString);
+            if ($tempResult->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Perimeter already exists"]);
+            }
+
+            $saveArray = array(
+                'PERIMETER' => strtoupper($PERIMETER),
+                'CREATED' => date('Y-m-d H:i:s')
+            );
+            $result = $this->Users_model->save($this->perimeterTable, $saveArray);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Perimeter added"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add perimeter"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_46 || Delete Perimeter
+     */
+    public function deletePerimeter_post()
+    {
+        try {
+            $PERIMETER = strtolower(trim($this->inputData["PERIMETER"]));
+
+            if (empty($PERIMETER)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(PERIMETER)='$PERIMETER'";
+            $tempResult = $this->Users_model->check($this->perimeterTable, $whereString);
+            if ($tempResult->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Perimeter not found"]);
+            }
+
+            $result = $this->Users_model->delete($this->perimeterTable, $whereString);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Perimeter deleted"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete perimeter"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_47 || Get Perimeters
+     */
+    public function getPerimeters_get()
+    {
+        try {
+            $this->db->select("PERIMETER");
+            $this->db->from($this->perimeterTable);
+            $this->db->where("STATUS", "ACTIVE");
+            $this->db->order_by("PERIMETER", "ASC");
+            $this->db->group_by("PERIMETER");
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Perimeters list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No perimeter found"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_48 || Add Length
+     */
+    public function insertLength_post()
+    {
+        try {
+            $LENGTH = strtolower(trim($this->inputData["LENGTH"]));
+
+            if (empty($LENGTH)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(LENGTH)='$LENGTH'";
+            $tempResult = $this->Users_model->check($this->lengthTable, $whereString);
+            if ($tempResult->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Length already exists"]);
+            }
+
+            $saveArray = array(
+                'LENGTH' => strtoupper($LENGTH),
+                'CREATED' => date('Y-m-d H:i:s')
+            );
+            $result = $this->Users_model->save($this->lengthTable, $saveArray);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Length added"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add length"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_49 || Delete Length
+     */
+    public function deleteLength_post()
+    {
+        try {
+            $LENGTH = strtolower(trim($this->inputData["LENGTH"]));
+
+            if (empty($LENGTH)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(LENGTH)='$LENGTH'";
+            $tempResult = $this->Users_model->check($this->lengthTable, $whereString);
+            if ($tempResult->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Length not found"]);
+            }
+
+            $result = $this->Users_model->delete($this->lengthTable, $whereString);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Length deleted"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete length"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_50 || Get Lengths
+     */
+    public function getLengths_get()
+    {
+        try {
+            $this->db->select("LENGTH");
+            $this->db->from($this->lengthTable);
+            $this->db->where("STATUS", "ACTIVE");
+            $this->db->order_by("LENGTH", "ASC");
+            $this->db->group_by("LENGTH");
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Lengths list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No length found"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_51 || Add Thickness
+     */
+    public function insertThickness_post()
+    {
+        try {
+            $THICKNESS = strtolower(trim($this->inputData["THICKNESS"]));
+
+            if (empty($THICKNESS)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(THICKNESS)='$THICKNESS'";
+            $tempResult = $this->Users_model->check($this->thicknessTable, $whereString);
+            if ($tempResult->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Thickness already exists"]);
+            }
+
+            $saveArray = array(
+                'THICKNESS' => strtoupper($THICKNESS),
+                'CREATED' => date('Y-m-d H:i:s')
+            );
+            $result = $this->Users_model->save($this->thicknessTable, $saveArray);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Thickness added"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add thickness"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_52 || Delete Thickness
+     */
+    public function deleteThickness_post()
+    {
+        try {
+            $THICKNESS = strtolower(trim($this->inputData["THICKNESS"]));
+
+            if (empty($THICKNESS)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(THICKNESS)='$THICKNESS'";
+            $tempResult = $this->Users_model->check($this->thicknessTable, $whereString);
+            if ($tempResult->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Thickness not found"]);
+            }
+
+            $result = $this->Users_model->delete($this->thicknessTable, $whereString);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Thickness deleted"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete thickness"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_53 || Get Thickness
+     */
+    public function getThickness_get()
+    {
+        try {
+            $this->db->select("THICKNESS");
+            $this->db->from($this->thicknessTable);
+            $this->db->where("STATUS", "ACTIVE");
+            $this->db->order_by("THICKNESS", "ASC");
+            $this->db->group_by("THICKNESS");
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Thickness list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No thickness found"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_54 || Add Weight
+     */
+    public function insertWeight_post()
+    {
+        try {
+            $WEIGHT = strtolower(trim($this->inputData["WEIGHT"]));
+
+            if (empty($WEIGHT)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(WEIGHT)='$WEIGHT'";
+            $tempResult = $this->Users_model->check($this->weightTable, $whereString);
+            if ($tempResult->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Weight already exists"]);
+            }
+
+            $saveArray = array(
+                'WEIGHT' => strtoupper($WEIGHT),
+                'CREATED' => date('Y-m-d H:i:s')
+            );
+            $result = $this->Users_model->save($this->weightTable, $saveArray);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Weight added"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add weight"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_55 || Delete Weight
+     */
+    public function deleteWeight_post()
+    {
+        try {
+            $WEIGHT = strtolower(trim($this->inputData["WEIGHT"]));
+
+            if (empty($WEIGHT)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereString = "LOWER(WEIGHT)='$WEIGHT'";
+            $tempResult = $this->Users_model->check($this->weightTable, $whereString);
+            if ($tempResult->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Weight not found"]);
+            }
+
+            $result = $this->Users_model->delete($this->weightTable, $whereString);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Weight deleted"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to delete weight"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_56 || Get Weight
+     */
+    public function getWeights_get()
+    {
+        try {
+            $this->db->select("WEIGHT");
+            $this->db->from($this->weightTable);
+            $this->db->where("STATUS", "ACTIVE");
+            $this->db->order_by("WEIGHT", "ASC");
+            $this->db->group_by("WEIGHT");
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Weights list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "No weight found"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
