@@ -118,7 +118,7 @@ class Orders extends REST_Controller
     {
         try {
             $EMAIL_ID = strtolower(trim($this->get("EMAIL_ID")));
-            $COMING_FROM = trim($this->get("COMING_FROM"));
+            $COMING_FROM = strtoupper(trim($this->get("COMING_FROM")));
             $DATE = trim($this->get("DATE"));
             $STATUS = trim($this->get("STATUS"));
             $B_NAME = trim($this->get("B_NAME"));
@@ -131,7 +131,7 @@ class Orders extends REST_Controller
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            if (!in_array($COMING_FROM, array("RETAILER", "CONSUMER"))) {
+            if (!in_array($COMING_FROM, array("RETAILER", "DEALER"))) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Invalid input in coming from"]);
             }
 
