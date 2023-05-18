@@ -115,7 +115,8 @@ class Users extends REST_Controller
                 $OTP = $this->utility->generate_otp();
                 $OTPArray = array(
                     'MOBILE_NO' => $MOBILE_NO,
-                    'OTP' => $OTP
+                    'OTP' => $OTP,
+                    'CREATED_DATETIME' => date('Y-m-d H:i:s')
                 );
                 $this->Users_model->save($this->otpsTable, $OTPArray);
 
