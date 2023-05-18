@@ -57,6 +57,10 @@ class Orders extends REST_Controller
                 $N_ITEMS = trim($eachOne["N_ITEMS"]);
                 $SIZE_QNTY = trim($eachOne["SIZE_QNTY"]);
                 $QNTY = trim($eachOne["QNTY"]);
+                $PERIMETER = trim($eachOne["PERIMETER"]);
+                $LENGTH = trim($eachOne["LENGTH"]);
+                $THICKNESS = trim($eachOne["THICKNESS"]);
+                $WEIGHT = trim($eachOne["WEIGHT"]);
                 $I_PRICE = trim($eachOne["I_PRICE"]);
                 $T_PRICE = trim($eachOne["T_PRICE"]);
                 $STATUS = trim($eachOne["STATUS"]);
@@ -85,6 +89,10 @@ class Orders extends REST_Controller
                     "N_ITEMS" => $N_ITEMS,
                     "SIZE_QNTY" => $SIZE_QNTY,
                     "QNTY" => $QNTY,
+                    "PERIMETER" => $PERIMETER,
+                    "LENGTH" => $LENGTH,
+                    "THICKNESS" => $THICKNESS,
+                    "WEIGHT" => $WEIGHT,
                     "I_PRICE" => $I_PRICE,
                     "T_PRICE" => $T_PRICE,
                     "STATUS" => $STATUS,
@@ -123,7 +131,7 @@ class Orders extends REST_Controller
                 $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            if (!in_array($COMING_FROM, array("DEALER", "CONSUMER"))) {
+            if (!in_array($COMING_FROM, array("RETAILER", "CONSUMER"))) {
                 $this->utility->sendForceJSON(["status" => false, "message" => "Invalid input in coming from"]);
             }
 
@@ -136,6 +144,10 @@ class Orders extends REST_Controller
             ord.N_ITEMS,
             ord.SIZE_QNTY,
             ord.QNTY,
+            ord.PERIMETER,
+            ord.LENGTH,
+            ord.THICKNESS,
+            ord.WEIGHT,
             ord.I_PRICE,
             ord.T_PRICE,
             ord.DELIVERY_TYPE,
@@ -149,7 +161,7 @@ class Orders extends REST_Controller
             usr.ADDRESS
             "));
             $this->db->from($this->ordersTable . " ord");
-            if ($COMING_FROM == "DEALER") {
+            if ($COMING_FROM == "RETAILER") {
                 $this->db->join($this->userTable . " usr", "ord.EMAIL_ID=usr.EMAIL_ID", "left");
                 $this->db->where("ord.RET_EMAIL_ID", $EMAIL_ID);
             } else {
