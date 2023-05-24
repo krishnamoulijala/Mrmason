@@ -15,6 +15,7 @@ class Admin extends REST_Controller
     private $lengthTable = "lengths";
     private $weightTable = "weights";
     private $thicknessTable = "thickness";
+    private $measureTable = "measures";
     private $inputData = "";
 
     /**
@@ -741,6 +742,100 @@ class Admin extends REST_Controller
                 $this->utility->sendForceJSON(["status" => true, "message" => "Weights list", "data" => $result->result_array()]);
             } else {
                 $this->utility->sendForceJSON(["status" => false, "message" => "No weight found"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_57 || Add Measures
+     */
+    public function insertMeasures_post()
+    {
+        try {
+            $BRAND = trim($this->inputData["BRAND"]);
+            $CATEGORY = trim($this->inputData["CATEGORY"]);
+            $SUB_CATEGORY = trim($this->inputData["SUB_CATEGORY"]);
+            $SHAPE = trim($this->inputData["SHAPE"]);
+            $WEIGHT = trim($this->inputData["WEIGHT"]);
+            $THICKNESS = trim($this->inputData["THICKNESS"]);
+            $LENGTH = trim($this->inputData["LENGTH"]);
+            $PERIMETER = trim($this->inputData["PERIMETER"]);
+
+            $saveArray = array(
+                "BRAND" => $BRAND,
+                "CATEGORY" => $CATEGORY,
+                "SUB_CATEGORY" => $SUB_CATEGORY,
+                "SHAPE" => $SHAPE,
+                "WEIGHT" => $WEIGHT,
+                "THICKNESS" => $THICKNESS,
+                "LENGTH" => $LENGTH,
+                "PERIMETER" => $PERIMETER
+            );
+            $result = $this->Users_model->save($this->measureTable, $saveArray);
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Measures added"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to add measures"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_58 || get Measures
+     */
+    public function getMeasures_get()
+    {
+        try {
+            $this->db->select("*");
+            $this->db->from($this->measureTable);
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Measures list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to get measures"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_59 || get Filter Measures
+     */
+    public function getFilterMeasures_get()
+    {
+        try {
+            $BRAND = trim($this->get("BRAND"));
+            $CATEGORY = trim($this->get("CATEGORY"));
+            $SUB_CATEGORY = trim($this->get("SUB_CATEGORY"));
+            $SHAPE = trim($this->get("SHAPE"));
+            $whereArray = array();
+            if (!empty($BRAND)) {
+                $whereArray['BRAND'] = $BRAND;
+            }
+            if (!empty($CATEGORY)) {
+                $whereArray['CATEGORY'] = $CATEGORY;
+            }
+            if (!empty($SUB_CATEGORY)) {
+                $whereArray['SUB_CATEGORY'] = $SUB_CATEGORY;
+            }
+            if (!empty($SHAPE)) {
+                $whereArray['SHAPE'] = $SHAPE;
+            }
+            $this->db->select("*");
+            $this->db->from($this->measureTable);
+            if (!empty($whereArray)) {
+                $this->db->where($whereArray);
+            }
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Measures list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to get measures"]);
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
