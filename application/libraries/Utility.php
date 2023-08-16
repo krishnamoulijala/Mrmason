@@ -135,4 +135,41 @@ class Utility
             return false;
         }
     }
+
+    /**
+     * Sending mail using the custom message and subject
+     * @param $to_email
+     * @param $message
+     * @param $subject
+     * @return bool
+     */
+    public function sendEMAIL($to_email, $message, $subject)
+    {
+        if (!empty($to_email)) {
+            $CI =& get_instance();
+            $CI->email->initialize(array(
+                'protocol' => 'smtp',
+                'smtp_host' => 'ssl://smtp.googlemail.com',
+                'smtp_user' => "mrmason.in@kosuriers.com",
+                'smtp_pass' => "BabuMekanik24@",
+                'smtp_port' => 465,
+                'mailtype' => 'html',
+                'crlf' => "\r\n",
+                'newline' => "\r\n",
+                'charset' => "utf-8"
+            ));
+            $CI->email->from("mrmason.in@kosuriers.com", "MrMason");
+            $CI->email->to($to_email);
+            $CI->email->subject($subject);
+            $CI->email->message($message);
+            $result = $CI->email->send();
+            if ($result) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }

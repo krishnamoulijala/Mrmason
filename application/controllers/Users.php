@@ -553,4 +553,99 @@ class Users extends REST_Controller
             $this->logAndThrowError($e, true);
         }
     }
+
+    /**
+     * #API_60 || User Forgot Password send OTP
+     */
+    public function forgotPasswordNew_post()
+    {
+        try {
+            $MOBILE_NO = trim($this->inputData["MOBILE_NO"]);
+
+            if (empty($MOBILE_NO)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereArray = array('MOBILE_NO' => $MOBILE_NO);
+            $temp = $this->Users_model->check($this->usersTable, $whereArray);
+            if ($temp->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
+            }
+
+            $OTP = $this->utility->generate_otp();
+            $OTPArray = array(
+                'MOBILE_NO' => $MOBILE_NO,
+                'OTP' => $OTP,
+                'CREATED_DATETIME' => date('Y-m-d H:i:s')
+            );
+            $result = $this->Users_model->save($this->otpsTable, $OTPArray);
+
+            $SMS_Message = "Thanks for registering with us. Your OTP to verify your mobile number is $OTP - www.mistermason.in";
+            $this->utility->sendSMS($MOBILE_NO, $SMS_Message);
+
+            if ($result) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "OTP triggered"]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to trigger OTP"]);
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
+
+    /**
+     * #API_61 || User Password (Update)
+     */
+    public function updatePassword_post()
+    {
+        try {
+            $MOBILE_NO = trim($this->inputData["MOBILE_NO"]);
+            $NEW_PASSWORD = trim($this->inputData["NEW_PASSWORD"]);
+            $OTP = trim($this->inputData["OTP"]);
+
+            if (empty($MOBILE_NO) || empty($NEW_PASSWORD) || empty($OTP)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+            }
+
+            $whereArray = array('MOBILE_NO' => $MOBILE_NO);
+            $temp = $this->Users_model->check($this->usersTable, $whereArray);
+            if ($temp->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "User not found"]);
+            }
+            $whereArray = array("MOBILE_NO" => $MOBILE_NO, "STATUS" => 0);
+            $this->db->select("OTP,ID");
+            $this->db->from($this->otpsTable);
+            $this->db->where($whereArray);
+            $this->db->order_by("CREATED_DATETIME", "DESC");
+            $this->db->limit(1);
+            $temp = $this->db->get();
+            if ($temp->num_rows() == 0) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Invalid OTP Request"]);
+            } else {
+                $STORED_OTP = $temp->row_array()["OTP"];
+                $ID = $temp->row_array()["ID"];
+                if ($STORED_OTP == $OTP) {
+                    $updateArray = array(
+                        'STATUS' => 1,
+                        'UPDATE_DATETIME' => date('Y-m-d H:i:s')
+                    );
+                    $result1 = $this->Users_model->update($this->otpsTable, array('ID' => $ID), $updateArray);
+                    $updateArray = array(
+                        'PASSWORD' => $NEW_PASSWORD,
+                        'UPDATE_DATETIME' => date('Y-m-d H:i:s')
+                    );
+                    $result = $this->Users_model->update($this->usersTable, $whereArray, $updateArray);
+                    if ($result) {
+                        $this->utility->sendForceJSON(["status" => true, "message" => "Password changed"]);
+                    } else {
+                        $this->utility->sendForceJSON(["status" => false, "message" => "Failed to change the password"]);
+                    }
+                } else {
+                    $this->utility->sendForceJSON(["status" => false, "message" => "Invalid OTP"]);
+                }
+            }
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
 }
