@@ -150,8 +150,8 @@ class Utility
             $CI->email->initialize(array(
                 'protocol' => 'smtp',
                 'smtp_host' => 'ssl://smtp.googlemail.com',
-                'smtp_user' => "mrmason.in@kosuriers.com",
-                'smtp_pass' => "BabuMekanik24@",
+                'smtp_user' => "carstd@kosuriauto.com",
+                'smtp_pass' => "CarStd23@",
                 'smtp_port' => 465,
                 'mailtype' => 'html',
                 'crlf' => "\r\n",
@@ -166,10 +166,10 @@ class Utility
             if ($result) {
                 return true;
             } else {
-                return false;
+                return $result;
             }
         } else {
-            return false;
+            return "poay";
         }
     }
 }

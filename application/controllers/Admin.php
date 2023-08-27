@@ -841,4 +841,15 @@ class Admin extends REST_Controller
             $this->logAndThrowError($e, true);
         }
     }
+
+    public function test_get()
+    {
+        try {
+            echo "hello";
+            $Body = '<p>To verify your email <a href="http://65.1.178.54/app/index.php/Users/verify?ref=9132534448">click here</a></p>';
+            $this->utility->sendEMAIL("krishnamouli143@gmail.com", $Body, "Email Verification || MrMason");
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
 }

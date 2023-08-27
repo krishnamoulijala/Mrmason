@@ -122,6 +122,8 @@ class Users extends REST_Controller
 
                 $SMS_Message = "Thanks for registering with us. Your OTP to verify your mobile number is $OTP - www.mistermason.in";
                 $this->utility->sendSMS($MOBILE_NO, $SMS_Message);
+                $Body = '<p>To verify your email <a href="http://65.1.178.54/app/index.php/Users/verify?ref=' . $BOD_SEQ_NO . '">click here</a></p>';
+                $this->utility->sendEMAIL($EMAIL_ID, $Body, "Email Verification || MrMason");
 
                 $this->utility->sendForceJSON(["status" => true, "message" => "Registration successful", "data" => $responseArray]);
             } else {
@@ -221,6 +223,10 @@ class Users extends REST_Controller
                 }
             }
             $result = $temp->row_array();
+
+            if ($result['STATUS'] == "INACTIVE") {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Please verify email to login"]);
+            }
 
             if ($result['PASSWORD'] == $PASSWORD) {
                 $responseArray = $this->getUserDetails($result['BOD_SEQ_NO']);
@@ -646,6 +652,46 @@ class Users extends REST_Controller
             }
         } catch (Exception $e) {
             $this->logAndThrowError($e, true);
+        }
+    }
+
+    public function verify_get()
+    {
+        try {
+            $ref = strtolower(trim($this->get("ref")));
+
+            if (empty($ref)) {
+                echo "Invalid link";
+                exit;
+            }
+
+            $whereArray = array('BOD_SEQ_NO' => $ref);
+            $temp = $this->Users_model->check($this->usersTable, $whereArray);
+            if ($temp->num_rows() == 0) {
+                echo "Invalid link";
+                exit;
+            }
+            $row_array = $temp->row_array();
+            if ($row_array['STATUS'] == 'ACTIVE') {
+                echo "Email already verified";
+                exit;
+            }
+            $updateArray = array(
+                'STATUS' => 'ACTIVE',
+                'UPDATE_DATETIME' => date('Y-m-d H:i:s')
+            );
+
+            $result = $this->Users_model->update($this->usersTable, $whereArray, $updateArray);
+            if ($result) {
+                echo "Email verified";
+                exit;
+            } else {
+                echo "Failed to verify email address";
+                exit;
+            }
+        } catch (Exception $e) {
+            echo "Something went wrong error:" . $e->getMessage();
+            exit;
         }
     }
 }
