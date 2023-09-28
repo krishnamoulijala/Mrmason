@@ -224,9 +224,9 @@ class Users extends REST_Controller
             }
             $result = $temp->row_array();
 
-            if ($result['STATUS'] == "INACTIVE") {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Please verify email to login"]);
-            }
+//            if ($result['STATUS'] == "INACTIVE") {
+//                $this->utility->sendForceJSON(["status" => false, "message" => "Please verify email to login"]);
+//            }
 
             if ($result['PASSWORD'] == $PASSWORD) {
                 $responseArray = $this->getUserDetails($result['BOD_SEQ_NO']);
