@@ -357,4 +357,38 @@ class Staff extends REST_Controller
             $this->logAndThrowError($e, true);
         }
     }
+
+    /**
+     * #API_62 || Get Service Person Details based on City and Service Name
+     */
+    public function getFilteredReport_get()
+    {
+        try {
+            $SERVICE_NAME = trim($this->get("SERVICE_NAME"));
+            $CITY = trim($this->get("CITY"));
+            $whereString = "";
+            if (!empty($SERVICE_NAME)) {
+                $whereString .= "`SERVICE_NAME` LIKE '%$SERVICE_NAME%'";
+            }
+
+            if (!empty($CITY)) {
+                $whereString .= " AND `CITY` LIKE '%$CITY%'";
+            }
+
+            $this->db->select("*");
+            $this->db->from($this->staffTable);
+            if (!empty($whereString)) {
+                $this->db->where($whereString);
+            }
+            $result = $this->db->get();
+            if ($result->num_rows() > 0) {
+                $this->utility->sendForceJSON(["status" => true, "message" => "Service person list", "data" => $result->result_array()]);
+            } else {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to filter the data"]);
+            }
+
+        } catch (Exception $e) {
+            $this->logAndThrowError($e, true);
+        }
+    }
 }
