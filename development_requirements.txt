@@ -1,0 +1,5 @@
+Requirements (05-10-2023):
+    1. Report should be Based on SERVICE_NAME, CITY (Location)
+    2. Report on service request based on SERVICE_REQUEST, REQ_PINCODE (Table has to share)
+    3. Report on service request input update from user(Table has to share)
+--------------------------------------------------------------------------------------------------

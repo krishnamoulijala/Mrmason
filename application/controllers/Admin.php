@@ -852,14 +852,4 @@ class Admin extends REST_Controller
             $this->logAndThrowError($e, true);
         }
     }
-
-
-    /**
-     * New requirements (05-10-2023):
-     *
-     * 1. Report should be Based on SERVICE_NAME, CITY (Location)
-     * 2. Report on service request based on SERVICE_REQUEST, LOCATION (Table has to share)
-     * 3. Report on service request input update from user(Table has to share)
-     *
-     */
 }

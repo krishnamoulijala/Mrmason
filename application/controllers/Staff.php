@@ -359,20 +359,24 @@ class Staff extends REST_Controller
     }
 
     /**
-     * #API_62 || Get Service Person Details based on City and Service Name
+     * #API_62 || Get Service Person Details based on City and Service Name || Last Modified : 08-10-2023
      */
     public function getFilteredReport_get()
     {
         try {
-            $SERVICE_NAME = trim($this->get("SERVICE_NAME"));
-            $CITY = trim($this->get("CITY"));
+            $SERVICE_NAME = strtolower(trim($this->get("SERVICE_NAME")));
+            $CITY = strtolower(trim($this->get("CITY")));
+            $AVAILABLE_STATUS = strtolower(trim($this->get("AVAILABLE_STATUS")));
             $whereString = "";
-            if (!empty($SERVICE_NAME)) {
-                $whereString .= "`SERVICE_NAME` LIKE '%$SERVICE_NAME%'";
+
+            if (!empty($SERVICE_NAME) && !empty($CITY)) {
+                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
             }
 
-            if (!empty($CITY)) {
-                $whereString .= " AND `CITY` LIKE '%$CITY%'";
+            $whereString .= "LOWER(`SERVICE_NAME`) LIKE '%$SERVICE_NAME%' AND LOWER(`CITY`) LIKE '%$CITY%'";
+
+            if (!empty($AVAILABLE_STATUS)) {
+                $whereString .= " AND LOWER(`AVAILABLE_STATUS`) LIKE '%$AVAILABLE_STATUS%'";
             }
 
             $this->db->select("*");
@@ -384,7 +388,7 @@ class Staff extends REST_Controller
             if ($result->num_rows() > 0) {
                 $this->utility->sendForceJSON(["status" => true, "message" => "Service person list", "data" => $result->result_array()]);
             } else {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Failed to filter the data"]);
+                $this->utility->sendForceJSON(["status" => false, "message" => "No filtered data found"]);
             }
 
         } catch (Exception $e) {
