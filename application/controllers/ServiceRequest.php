@@ -36,12 +36,20 @@ class ServiceRequest extends REST_Controller
     public function getFilteredReport_get()
     {
         try {
-            $LOCATION = trim($this->get("LOCATION"));
+            $LOCATION = strtolower(trim($this->get("LOCATION")));
+            $SERVICE_NAME = strtolower(trim($this->get("SERVICE_NAME")));
+            $STATUS = strtolower(trim($this->get("STATUS")));
 
+            $whereString = "";
             if (!empty($LOCATION)) {
-                $this->utility->sendForceJSON(["status" => false, "message" => "Required fields missing"]);
+                $whereString .= "LOWER(`REQ_PINCODE`) LIKE '%$LOCATION%'";
             }
-            $whereString = " `REQ_PINCODE` LIKE '%$LOCATION%'";
+            if (!empty($SERVICE_NAME)) {
+                $whereString .= " AND LOWER(`SERVICE_NAME`) LIKE '%$SERVICE_NAME%'";
+            }
+            if (!empty($STATUS)) {
+                $whereString .= " AND LOWER(`STATUS`) LIKE '%$STATUS%'";
+            }
 
             $this->db->select("*");
             $this->db->from($this->serviceRequestTable);
