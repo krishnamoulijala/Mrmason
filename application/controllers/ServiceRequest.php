@@ -40,13 +40,11 @@ class ServiceRequest extends REST_Controller
             $SERVICE_NAME = strtolower(trim($this->get("SERVICE_NAME")));
             $STATUS = strtolower(trim($this->get("STATUS")));
 
-            $whereString = "";
-            if (!empty($LOCATION)) {
-                $whereString .= "LOWER(`REQ_PINCODE`) LIKE '%$LOCATION%'";
+            if (empty($LOCATION) || empty($SERVICE_NAME)) {
+                $this->utility->sendForceJSON(['status' => false, 'message' => 'Required fields missing']);
             }
-            if (!empty($SERVICE_NAME)) {
-                $whereString .= " AND LOWER(`SERVICE_NAME`) LIKE '%$SERVICE_NAME%'";
-            }
+
+            $whereString = "LOWER(`REQ_PINCODE`) LIKE '%$LOCATION%' AND LOWER(`SERVICE_NAME`) LIKE '%$SERVICE_NAME%'";
             if (!empty($STATUS)) {
                 $whereString .= " AND LOWER(`STATUS`) LIKE '%$STATUS%'";
             }
