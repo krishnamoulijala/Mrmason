@@ -63,6 +63,10 @@ class Users extends REST_Controller
             $USER_TYPE = trim($this->inputData["USER_TYPE"]);
             $PASSWORD = trim($this->inputData["PASSWORD"]);
 
+            if (empty($MOBILE_NO) || empty($NAME) || empty($EMAIL_ID) || empty($PASSWORD) || empty($USER_TYPE)) {
+                $this->utility->sendForceJSON(['status' => false, 'message' => "Required fields missing"]);
+            }
+
             if (!empty($MOBILE_NO)) {
                 if (!is_numeric($MOBILE_NO) && strlen($MOBILE_NO) < 10) {
                     $this->utility->sendForceJSON(['status' => false, 'message' => "Invalid mobile number"]);
