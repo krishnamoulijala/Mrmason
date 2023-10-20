@@ -74,10 +74,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Database Credentials
  */
-$DB_HOSTNAME = "localhost";
-$DB_USERNAME = "user12345";
-$DB_PASSWORD = "User@12345";
+$DB_HOSTNAME = "65.0.167.251";
+$DB_USERNAME = "kslcarstand";
+$DB_PASSWORD = "carstand@23";
 $DB_DATABASE = "mrmason";
+
+//$DB_HOSTNAME = "localhost";
+//$DB_USERNAME = "user12345";
+//$DB_PASSWORD = "User@12345";
 
 $active_group = 'default';
 $query_builder = TRUE;
